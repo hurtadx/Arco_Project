@@ -9,7 +9,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "electron:dev": "concurrently \"cross-env BROWSER=none npm run dev\" \"wait-on http://localhost:5173 && electron .\"",
+    "electron:dev": "cross-env NODE_ENV=development concurrently \"vite\" \"wait-on http://localhost:5173 && electron .\"",
     "electron:build": "vite build && electron-builder",
     "electron:preview": "vite build && electron ."
   },
@@ -18,6 +18,7 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@electron/remote": "^2.1.2",
     "@eslint/js": "^9.21.0",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
@@ -41,6 +42,11 @@
     ],
     "directories": {
       "buildResources": "assets"
+    },
+    "win": {
+      "asar": true,
+      "asarUnpack": "**\\*.{node,dll}",
+      "artifactName": "${productName}-${version}-setup.${ext}"
     }
   }
 }
