@@ -1,7 +1,15 @@
-const { app, BrowserWindow } = require('electron')
-const path = require('path')
-const url = require('url')
+import { app, BrowserWindow } from 'electron'
+import path from 'path'
+import { format as formatUrl } from 'url'
+import { initialize, enable } from '@electron/remote/main/index.js'
+import fs from 'fs'
+import { fileURLToPath } from 'url'
 
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
+initialize()
 
 let mainWindow
 
@@ -11,18 +19,29 @@ function createWindow() {
     height: 600,
     webPreferences: {
       nodeIntegration: true,
-      contextIsolation: false
+      contextIsolation: false,
+      enableRemoteModule: true
     }
   })
 
- 
-  const startUrl = process.env.ELECTRON_START_URL || url.format({
-    pathname: path.join(__dirname, '../dist/index.html'),
-    protocol: 'file:',
-    slashes: true
-  })
+  
+  enable(mainWindow.webContents)
+
+  const isDev = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === undefined;
+  const startUrl = isDev 
+    ? 'http://localhost:5173' 
+    : formatUrl({
+        pathname: path.join(__dirname, '../dist/index.html'),
+        protocol: 'file:',
+        slashes: true
+      });
+  
+  console.log('Loading URL:', startUrl);
   
   mainWindow.loadURL(startUrl)
+  
+  
+  mainWindow.webContents.openDevTools()
 
   mainWindow.on('closed', () => {
     mainWindow = null
@@ -42,8 +61,6 @@ app.on('activate', () => {
     createWindow()
   }
 })
-
-const fs = require('fs')
 
 const directories = [
   'src/components/ObjectChange',
