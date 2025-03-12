@@ -40,3 +40,28 @@
 .read-the-docs {
   color: #888;
 }
+
+.app-container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1;
+  padding: 20px;
+  background-color: #f5f5f5;
+}
+
+.object-changes-container,
+.equipment-registry-container,
+.equipment-changes-container {
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
