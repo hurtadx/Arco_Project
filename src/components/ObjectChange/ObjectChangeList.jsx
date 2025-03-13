@@ -1,20 +1,42 @@
 import React, { useState, useEffect } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { getObjectChanges } from '../../data/objectChangesStore';
 import './ObjectChangeList.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { getObjectChanges, exportToExcel, importFromExcel } from '../../data/objectChangesStore';
+import DataImportExport from '../common/DataImportExport';
 
 function ObjectChangeList() {
-  const [changes, setChanges] = useState([]);
+  const [objectChanges, setObjectChanges] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [isReadOnly, setIsReadOnly] = useState(false);
   
   useEffect(() => {
     
-    setChanges(getObjectChanges());
+    const checkLockStatus = async () => {
+      if (window.electron) {
+        try {
+          const lockStatus = await window.electron.invoke('check-lock');
+          setIsReadOnly(lockStatus.isLocked);
+        } catch (error) {
+          console.error('Error al verificar estado de bloqueo:', error);
+        }
+      }
+    };
+    
+    checkLockStatus();
+    
+    
+    const loadChanges = async () => {
+      const data = await getObjectChanges();
+      setObjectChanges(data);
+    };
+    
+    loadChanges();
     
     
     const interval = setInterval(() => {
-      setChanges(getObjectChanges());
-    }, 1000);
+      loadChanges();
+      checkLockStatus();
+    }, 5000);
     
     return () => clearInterval(interval);
   }, []);
@@ -24,41 +46,36 @@ function ObjectChangeList() {
   };
   
   const filteredChanges = searchTerm 
-    ? changes.filter(change => 
-        change.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        (change.personName && change.personName.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        change.objectType.toLowerCase().includes(searchTerm.toLowerCase())
+    ? objectChanges.filter(change => 
+        change.location?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        change.personName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        change.objectType?.toLowerCase().includes(searchTerm.toLowerCase())
       )
-    : changes;
+    : objectChanges;
   
-  if (changes.length === 0) {
-    return (
-      <div className="object-change-list">
-        <p className="no-changes">
-          <FontAwesomeIcon icon={['far', 'clipboard']} size="2x" style={{marginBottom: '1rem'}} /> <br />
-          No hay cambios registrados aún.
-        </p>
-      </div>
-    );
-  }
   
   return (
     <div className="object-change-list">
       <div className="list-header">
-        <h3>Cambios Registrados ({filteredChanges.length})</h3>
-        <div className="list-actions">
-          <div className="search-container">
-            <FontAwesomeIcon icon={['fas', 'search']} className="search-icon" />
-            <input 
-              type="text" 
-              placeholder="Buscar cambios..." 
-              value={searchTerm}
-              onChange={handleSearch}
-            />
-          </div>
+        <div className="search-container">
+          <input
+            type="text"
+            placeholder="Buscar cambios..."
+            value={searchTerm}
+            onChange={handleSearch}
+            className="search-input"
+          />
+          <FontAwesomeIcon icon={['fas', 'search']} className="search-icon" />
         </div>
+        
+        <DataImportExport 
+          type="cambios de objetos"
+          onExport={exportToExcel}
+          onImport={importFromExcel}
+          isReadOnly={isReadOnly}
+        />
       </div>
-
+      
       <table className="data-table">
         <thead>
           <tr>
