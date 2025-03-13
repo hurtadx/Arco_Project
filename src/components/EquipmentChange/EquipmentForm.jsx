@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './EquipmentForm.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { addEquipment } from '../../data/equipmentStore';
 
 function EquipmentForm() {
   const [formData, setFormData] = useState({
@@ -8,6 +9,8 @@ function EquipmentForm() {
     initialOwner: '',
     purchaseDate: new Date().toISOString().split('T')[0]
   });
+  
+  const [successMessage, setSuccessMessage] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,9 +23,18 @@ function EquipmentForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    console.log('Equipo registrado:', formData);
     
-    // Reset form
+    const newEquipment = addEquipment(formData);
+    
+    
+    setSuccessMessage(`Equipo "${formData.model}" registrado correctamente`);
+    
+    
+    setTimeout(() => {
+      setSuccessMessage('');
+    }, 3000);
+    
+    
     setFormData({
       model: '',
       initialOwner: '',
@@ -36,6 +48,14 @@ function EquipmentForm() {
         <FontAwesomeIcon icon={['fas', 'plus']} className="form-icon" />
         Nuevo equipo
       </h3>
+      
+      {successMessage && (
+        <div className="success-message">
+          <FontAwesomeIcon icon={['fas', 'check']} />
+          {successMessage}
+        </div>
+      )}
+      
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="model">
