@@ -6,7 +6,7 @@ import { addEquipmentChange } from '../../data/equipmentChangesStore';
 import DatePickerField from '../common/DatePickerField';
 import AnimatedContainer from '../common/AnimatedContainer';
 
-function EquipmentChangeForm() {
+const EquipmentChangeForm = () => {
   const [equipment, setEquipment] = useState([]);
   
   const [formData, setFormData] = useState({
@@ -23,15 +23,22 @@ function EquipmentChangeForm() {
   
   
   useEffect(() => {
-    const loadedEquipment = getEquipment();
-    setEquipment(loadedEquipment);
+    const loadEquipment = async () => {
+      try {
+        const data = await getEquipment();
+        if (Array.isArray(data)) {
+          setEquipment(data);
+        } else {
+          console.error("Los datos de equipo no son un array:", data);
+          setEquipment([]); 
+        }
+      } catch (error) {
+        console.error("Error al cargar equipos:", error);
+        setEquipment([]);
+      }
+    };
     
-    
-    const interval = setInterval(() => {
-      setEquipment(getEquipment());
-    }, 2000);
-    
-    return () => clearInterval(interval);
+    loadEquipment();
   }, []);
   
   const reasons = [
@@ -93,13 +100,13 @@ function EquipmentChangeForm() {
   return (
     <AnimatedContainer animation="slide-up" className="equipment-change-form form-fade-in">
       <h3 className="form-title">
-        <FontAwesomeIcon icon={['fas', 'exchange']} className="form-icon" />
+        <FontAwesomeIcon icon="exchange" className="form-icon" />
         Nuevo cambio de equipo
       </h3>
       
       {successMessage && (
         <div className="success-message">
-          <FontAwesomeIcon icon={['fas', 'check-circle']} />
+          <FontAwesomeIcon icon="check-circle" />
           {successMessage}
           <span className="message-progress"></span>
         </div>
@@ -108,7 +115,7 @@ function EquipmentChangeForm() {
       <form onSubmit={handleSubmit} className="floating-form">
         <div className="form-group">
           <label htmlFor="equipmentId">
-            <FontAwesomeIcon icon={['fas', 'laptop']} className="form-field-icon" />
+            <FontAwesomeIcon icon="laptop" className="form-field-icon" />
             Equipo:
           </label>
           <select
@@ -120,15 +127,17 @@ function EquipmentChangeForm() {
             className="enhanced-select"
           >
             <option value="">Seleccione un equipo</option>
-            {equipment.map(eq => (
-              <option key={eq.id} value={eq.id}>{eq.model}</option>
-            ))}
+            {Array.isArray(equipment) ? equipment.map(eq => (
+              <option key={eq.id} value={eq.id}>
+                {eq.model} - {eq.inventoryNumber || 'Sin número de inventario'}
+              </option>
+            )) : <option value="">No hay equipos disponibles</option>}
           </select>
         </div>
         
         <div className="form-group">
           <label htmlFor="previousOwner">
-            <FontAwesomeIcon icon={['fas', 'user']} className="form-field-icon" />
+            <FontAwesomeIcon icon="user" className="form-field-icon" />
             Propietario Anterior:
           </label>
           <input
@@ -145,7 +154,7 @@ function EquipmentChangeForm() {
         
         <div className="form-group">
           <label htmlFor="newOwner">
-            <FontAwesomeIcon icon={['fas', 'user']} className="form-field-icon" />
+            <FontAwesomeIcon icon="user" className="form-field-icon" />
             Nuevo Propietario:
           </label>
           <input
@@ -162,7 +171,7 @@ function EquipmentChangeForm() {
         
         <div className="form-group">
           <label htmlFor="reason">
-            <FontAwesomeIcon icon={['fas', 'clipboard']} className="form-field-icon" />
+            <FontAwesomeIcon icon="clipboard" className="form-field-icon" />
             Motivo del Cambio:
           </label>
           <select
@@ -206,12 +215,12 @@ function EquipmentChangeForm() {
         </div>
         
         <button type="submit" className="submit-btn">
-          <FontAwesomeIcon icon={['fas', 'save']} />
+          <FontAwesomeIcon icon="save" />
           Registrar Cambio
         </button>
       </form>
     </AnimatedContainer>
   );
-}
+};
 
 export default EquipmentChangeForm;
