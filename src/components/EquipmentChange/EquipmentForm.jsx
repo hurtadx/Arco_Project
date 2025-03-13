@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import './EquipmentForm.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function EquipmentForm() {
   const [formData, setFormData] = useState({
     model: '',
-    serialNumber: '',
     initialOwner: '',
     purchaseDate: new Date().toISOString().split('T')[0]
   });
@@ -25,53 +25,55 @@ function EquipmentForm() {
     
     setFormData({
       model: '',
-      serialNumber: '',
       initialOwner: '',
       purchaseDate: new Date().toISOString().split('T')[0]
     });
   };
 
   return (
-    <div className="equipment-form">
+    <div className="equipment-form form-fade-in">
+      <h3 className="form-title">
+        <FontAwesomeIcon icon={['fas', 'plus']} className="form-icon" />
+        Nuevo equipo
+      </h3>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="model">Modelo:</label>
+          <label htmlFor="model">
+            <FontAwesomeIcon icon={['fas', 'laptop']} className="form-field-icon" />
+            Modelo:
+          </label>
           <input
             type="text"
             id="model"
             name="model"
             value={formData.model}
             onChange={handleChange}
+            placeholder="Ej: Laptop Dell XPS 13"
             required
           />
         </div>
         
         <div className="form-group">
-          <label htmlFor="serialNumber">Número de Serie:</label>
-          <input
-            type="text"
-            id="serialNumber"
-            name="serialNumber"
-            value={formData.serialNumber}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        
-        <div className="form-group">
-          <label htmlFor="initialOwner">Propietario Inicial:</label>
+          <label htmlFor="initialOwner">
+            <FontAwesomeIcon icon={['fas', 'user']} className="form-field-icon" />
+            Propietario Inicial:
+          </label>
           <input
             type="text"
             id="initialOwner"
             name="initialOwner"
             value={formData.initialOwner}
             onChange={handleChange}
+            placeholder="Nombre del propietario inicial"
             required
           />
         </div>
         
         <div className="form-group">
-          <label htmlFor="purchaseDate">Fecha de Compra:</label>
+          <label htmlFor="purchaseDate">
+            <FontAwesomeIcon icon={['fas', 'calendar-alt']} className="form-field-icon" />
+            Fecha de Compra:
+          </label>
           <input
             type="date"
             id="purchaseDate"
@@ -82,7 +84,10 @@ function EquipmentForm() {
           />
         </div>
         
-        <button type="submit" className="submit-btn">Registrar Equipo</button>
+        <button type="submit" className="submit-btn">
+          <FontAwesomeIcon icon={['fas', 'save']} />
+          Registrar Equipo
+        </button>
       </form>
     </div>
   );
