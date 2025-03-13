@@ -8,6 +8,7 @@ import EquipmentForm from './components/EquipmentChange/EquipmentForm'
 import EquipmentList from './components/EquipmentChange/EquipmentList'
 import EquipmentChangeForm from './components/EquipmentChange/EquipmentChangeForm'
 import Debug from './components/common/Debug'  // Importar el nuevo componente
+import AnimatedContainer from './components/common/AnimatedContainer';
 
 // Importar las funciones de los stores
 import { getObjectChanges, exportToExcel as exportObjectChanges } from './data/objectChangesStore'
@@ -85,68 +86,80 @@ function App() {
       
       <main className="content">
         {activeTab === 'objectChanges' && (
-          <div className="object-changes-container fade-in">
-            <div className="section-header">
-              <h2 className="section-title">
-                <FontAwesomeIcon icon={['fas', 'box']} />
-                Registro de Cambio de Objetos
-              </h2>
-              <div className="section-actions">
-                <button 
-                  className="btn btn-accent"
-                  onClick={() => handleExport('objectChanges')}
-                >
-                  <FontAwesomeIcon icon={['fas', 'file-export']} />
-                  Exportar a Excel
-                </button>
+          <AnimatedContainer animation="slide-up">
+            <div className="object-changes-container">
+              <div className="section-header">
+                <h2 className="section-title">
+                  <FontAwesomeIcon icon={['fas', 'box']} />
+                  Registro de Cambio de Objetos
+                </h2>
+                <div className="section-actions">
+                  <button 
+                    className="btn btn-accent"
+                    onClick={() => handleExport('objectChanges')}
+                  >
+                    <FontAwesomeIcon icon={['fas', 'file-export']} />
+                    Exportar a Excel
+                  </button>
+                </div>
               </div>
+              
+              <AnimatedContainer animation="slide-in-right" delay={0.1}>
+                <ObjectChangeForm />
+              </AnimatedContainer>
+              
+              <AnimatedContainer animation="slide-in-right" delay={0.2}>
+                <ObjectChangeList />
+              </AnimatedContainer>
             </div>
-            <ObjectChangeForm />
-            <ObjectChangeList />
-          </div>
+          </AnimatedContainer>
         )}
         
         {activeTab === 'equipmentRegistry' && (
-          <div className="equipment-registry-container fade-in">
-            <div className="section-header">
-              <h2 className="section-title">
-                <FontAwesomeIcon icon={['fas', 'laptop']} />
-                Registro de Equipos
-              </h2>
-              <div className="section-actions">
-                <button 
-                  className="btn btn-accent"
-                  onClick={() => handleExport('equipment')}
-                >
-                  <FontAwesomeIcon icon={['fas', 'file-export']} />
-                  Exportar a Excel
-                </button>
+          <AnimatedContainer animation="slide-up">
+            <div className="equipment-registry-container fade-in">
+              <div className="section-header">
+                <h2 className="section-title">
+                  <FontAwesomeIcon icon={['fas', 'laptop']} />
+                  Registro de Equipos
+                </h2>
+                <div className="section-actions">
+                  <button 
+                    className="btn btn-accent"
+                    onClick={() => handleExport('equipment')}
+                  >
+                    <FontAwesomeIcon icon={['fas', 'file-export']} />
+                    Exportar a Excel
+                  </button>
+                </div>
               </div>
+              <EquipmentForm />
+              <EquipmentList />
             </div>
-            <EquipmentForm />
-            <EquipmentList />
-          </div>
+          </AnimatedContainer>
         )}
         
         {activeTab === 'equipmentChanges' && (
-          <div className="equipment-changes-container fade-in">
-            <div className="section-header">
-              <h2 className="section-title">
-                <FontAwesomeIcon icon={['fas', 'exchange']} />
-                Registro de Cambio de Equipos
-              </h2>
-              <div className="section-actions">
-                <button 
-                  className="btn btn-accent"
-                  onClick={() => handleExport('equipmentChanges')}
-                >
-                  <FontAwesomeIcon icon={['fas', 'file-export']} />
-                  Exportar a Excel
-                </button>
+          <AnimatedContainer animation="slide-up">
+            <div className="equipment-changes-container fade-in">
+              <div className="section-header">
+                <h2 className="section-title">
+                  <FontAwesomeIcon icon={['fas', 'exchange']} />
+                  Registro de Cambio de Equipos
+                </h2>
+                <div className="section-actions">
+                  <button 
+                    className="btn btn-accent"
+                    onClick={() => handleExport('equipmentChanges')}
+                  >
+                    <FontAwesomeIcon icon={['fas', 'file-export']} />
+                    Exportar a Excel
+                  </button>
+                </div>
               </div>
+              <EquipmentChangeForm />
             </div>
-            <EquipmentChangeForm />
-          </div>
+          </AnimatedContainer>
         )}
       </main>
       
