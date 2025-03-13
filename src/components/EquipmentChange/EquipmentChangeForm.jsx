@@ -3,6 +3,8 @@ import './EquipmentChangeForm.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getEquipment } from '../../data/equipmentStore';
 import { addEquipmentChange } from '../../data/equipmentChangesStore';
+import DatePickerField from '../common/DatePickerField';
+import AnimatedContainer from '../common/AnimatedContainer';
 
 function EquipmentChangeForm() {
   const [equipment, setEquipment] = useState([]);
@@ -89,7 +91,7 @@ function EquipmentChangeForm() {
   };
   
   return (
-    <div className="equipment-change-form form-fade-in">
+    <AnimatedContainer animation="slide-up" className="equipment-change-form form-fade-in">
       <h3 className="form-title">
         <FontAwesomeIcon icon={['fas', 'exchange']} className="form-icon" />
         Nuevo cambio de equipo
@@ -97,12 +99,13 @@ function EquipmentChangeForm() {
       
       {successMessage && (
         <div className="success-message">
-          <FontAwesomeIcon icon={['fas', 'check']} />
+          <FontAwesomeIcon icon={['fas', 'check-circle']} />
           {successMessage}
+          <span className="message-progress"></span>
         </div>
       )}
       
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="floating-form">
         <div className="form-group">
           <label htmlFor="equipmentId">
             <FontAwesomeIcon icon={['fas', 'laptop']} className="form-field-icon" />
@@ -114,6 +117,7 @@ function EquipmentChangeForm() {
             value={formData.equipmentId}
             onChange={handleChange}
             required
+            className="enhanced-select"
           >
             <option value="">Seleccione un equipo</option>
             {equipment.map(eq => (
@@ -135,6 +139,7 @@ function EquipmentChangeForm() {
             onChange={handleChange}
             placeholder="Nombre del propietario anterior"
             required
+            className="enhanced-input"
           />
         </div>
         
@@ -151,6 +156,7 @@ function EquipmentChangeForm() {
             onChange={handleChange}
             placeholder="Nombre del nuevo propietario"
             required
+            className="enhanced-input"
           />
         </div>
         
@@ -165,6 +171,7 @@ function EquipmentChangeForm() {
             value={formData.reason}
             onChange={handleChange}
             required
+            className="enhanced-select"
           >
             <option value="">Seleccione un motivo</option>
             {reasons.map(reason => (
@@ -175,31 +182,25 @@ function EquipmentChangeForm() {
         
         <div className="form-row">
           <div className="form-group half-width">
-            <label htmlFor="fromDate">
-              <FontAwesomeIcon icon={['fas', 'calendar-alt']} className="form-field-icon" />
-              Desde:
-            </label>
-            <input
-              type="date"
-              id="fromDate"
+            <DatePickerField
+              label="Desde"
               name="fromDate"
               value={formData.fromDate}
               onChange={handleChange}
-              required
+              required={true}
+              maxDate={new Date()}
             />
           </div>
           
           <div className="form-group half-width">
-            <label htmlFor="toDate">
-              <FontAwesomeIcon icon={['fas', 'calendar-alt']} className="form-field-icon" />
-              Hasta: <span className="optional-label">(Opcional)</span>
-            </label>
-            <input
-              type="date"
-              id="toDate"
+            <DatePickerField
+              label="Hasta"
               name="toDate"
               value={formData.toDate}
               onChange={handleChange}
+              optional={true}
+              minDate={formData.fromDate ? new Date(formData.fromDate) : null}
+              allowFutureDates={true} 
             />
           </div>
         </div>
@@ -209,7 +210,7 @@ function EquipmentChangeForm() {
           Registrar Cambio
         </button>
       </form>
-    </div>
+    </AnimatedContainer>
   );
 }
 

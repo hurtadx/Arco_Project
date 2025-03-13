@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import './EquipmentForm.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { addEquipment } from '../../data/equipmentStore';
+import DatePickerField from '../common/DatePickerField';
+import AnimatedContainer from '../common/AnimatedContainer';
 
 function EquipmentForm() {
   const [formData, setFormData] = useState({
@@ -43,7 +45,7 @@ function EquipmentForm() {
   };
 
   return (
-    <div className="equipment-form form-fade-in">
+    <AnimatedContainer animation="slide-up" className="equipment-form form-fade-in">
       <h3 className="form-title">
         <FontAwesomeIcon icon={['fas', 'plus']} className="form-icon" />
         Nuevo equipo
@@ -51,12 +53,13 @@ function EquipmentForm() {
       
       {successMessage && (
         <div className="success-message">
-          <FontAwesomeIcon icon={['fas', 'check']} />
+          <FontAwesomeIcon icon={['fas', 'check-circle']} />
           {successMessage}
+          <span className="message-progress"></span>
         </div>
       )}
       
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="floating-form">
         <div className="form-group">
           <label htmlFor="model">
             <FontAwesomeIcon icon={['fas', 'laptop']} className="form-field-icon" />
@@ -68,7 +71,8 @@ function EquipmentForm() {
             name="model"
             value={formData.model}
             onChange={handleChange}
-            placeholder="Ej: Laptop Dell XPS 13"
+            
+            className="enhanced-input"
             required
           />
         </div>
@@ -85,31 +89,26 @@ function EquipmentForm() {
             value={formData.initialOwner}
             onChange={handleChange}
             placeholder="Nombre del propietario inicial"
+            className="enhanced-input"
             required
           />
         </div>
         
-        <div className="form-group">
-          <label htmlFor="purchaseDate">
-            <FontAwesomeIcon icon={['fas', 'calendar-alt']} className="form-field-icon" />
-            Fecha de Compra:
-          </label>
-          <input
-            type="date"
-            id="purchaseDate"
-            name="purchaseDate"
-            value={formData.purchaseDate}
-            onChange={handleChange}
-            required
-          />
-        </div>
+        <DatePickerField
+          label="Fecha de Compra"
+          name="purchaseDate"
+          value={formData.purchaseDate}
+          onChange={handleChange}
+          required={true}
+          maxDate={new Date()}
+        />
         
         <button type="submit" className="submit-btn">
           <FontAwesomeIcon icon={['fas', 'save']} />
           Registrar Equipo
         </button>
       </form>
-    </div>
+    </AnimatedContainer>
   );
 }
 
