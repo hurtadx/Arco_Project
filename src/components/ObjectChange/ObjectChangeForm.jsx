@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import './ObjectChangeForm.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { addObjectChange, getObjectChanges } from '../../data/objectChangesStore';
-import { exportToExcel } from '../../utils/exportUtils';
+import { addObjectChange } from '../../data/objectChangesStore';
+import DatePickerField from '../common/DatePickerField';
 
 function ObjectChangeForm() {
   const [formData, setFormData] = useState({
@@ -13,6 +13,7 @@ function ObjectChangeForm() {
     date: new Date().toISOString().split('T')[0]
   });
   
+  const [successMessage, setSuccessMessage] = useState('');
   const [showOtherField, setShowOtherField] = useState(false);
   
   const locations = ['Administración', 'Extrusión', 'Producción', 'Logística', 'Otro'];
@@ -47,6 +48,14 @@ function ObjectChangeForm() {
     addObjectChange(changeData);
     
     
+    setSuccessMessage(`¡Cambio registrado correctamente!`);
+    
+    
+    setTimeout(() => {
+      setSuccessMessage('');
+    }, 3000);
+    
+    
     setFormData({
       location: '',
       personName: '',
@@ -63,7 +72,15 @@ function ObjectChangeForm() {
         <FontAwesomeIcon icon={['fas', 'plus']} className="form-icon" /> 
         Nuevo registro
       </h3>
-      <form onSubmit={handleSubmit}>
+      
+      {successMessage && (
+        <div className="success-message">
+          <FontAwesomeIcon icon={['fas', 'check-circle']} />
+          {successMessage}
+        </div>
+      )}
+      
+      <form onSubmit={handleSubmit} className="floating-form">
         <div className="form-group">
           <label htmlFor="location">
             <FontAwesomeIcon icon={['fas', 'building']} className="form-field-icon" />
@@ -74,6 +91,7 @@ function ObjectChangeForm() {
             name="location" 
             value={formData.location} 
             onChange={handleChange}
+            className="enhanced-select"
             required
           >
             <option value="">Seleccione un lugar</option>
@@ -92,6 +110,7 @@ function ObjectChangeForm() {
             type="text"
             id="personName"
             name="personName"
+            className="enhanced-input"
             value={formData.personName}
             onChange={handleChange}
             placeholder="Nombre de la persona que recibe"
@@ -108,6 +127,7 @@ function ObjectChangeForm() {
             name="objectType" 
             value={formData.objectType} 
             onChange={handleChange}
+            className="enhanced-select"
             required
           >
             <option value="">Seleccione un objeto</option>
@@ -127,6 +147,7 @@ function ObjectChangeForm() {
               type="text"
               id="otherObject"
               name="otherObject"
+              className="enhanced-input"
               value={formData.otherObject}
               onChange={handleChange}
               required
@@ -135,38 +156,21 @@ function ObjectChangeForm() {
           </div>
         )}
         
-        <div className="form-group">
-          <label htmlFor="date">
-            <FontAwesomeIcon icon={['fas', 'calendar-alt']} className="form-field-icon" />
-            Fecha:
-          </label>
-          <input
-            type="date"
-            id="date"
-            name="date"
-            value={formData.date}
-            onChange={handleChange}
-            required
-          />
-        </div>
+        <DatePickerField
+          label="Fecha"
+          name="date"
+          value={formData.date}
+          onChange={handleChange}
+          required={true}
+          maxDate={new Date()} 
+          yearDropdownItemNumber={15} 
+        />
         
         <button type="submit" className="submit-btn">
           <FontAwesomeIcon icon={['fas', 'save']} /> 
           Registrar Cambio
         </button>
       </form>
-      <div className="section-actions">
-        <button 
-          className="btn btn-accent"
-          onClick={() => {
-            const objectChanges = getObjectChanges();
-            exportToExcel(objectChanges);
-          }}
-        >
-          <FontAwesomeIcon icon={['fas', 'file-export']} />
-          Exportar a Excel
-        </button>
-      </div>
     </div>
   );
 }
