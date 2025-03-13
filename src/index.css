@@ -1,53 +1,405 @@
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+    --primary: #3a5a99;
+  --primary-light: #5a7abf;
+  --primary-dark: #2c4577;
+  --accent: #f8a829;
+  --accent-light: #ffc15c;
+  --accent-dark: #e69310;
+  --success: #4caf50;
+  --warning: #ff9800;
+  --danger: #f44336;
+  --text-primary: #333333;
+  --text-secondary: #555555;
+  --text-light: #777777;
+  --background-light: #ffffff;
+  --background-gray: #f5f7fb;
+  --border-color: #e0e6f0;
+  --shadow: rgba(0, 0, 0, 0.1);
+  
+    --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-xxl: 3rem;
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+  --border-radius-xl: 16px;
 
-  color-scheme: light dark;
-  color: rgba(0, 0, 0, 0.87);   background-color: #ffffff; 
+    font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.6;
+  font-weight: 400;
+  color: var(--text-primary);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  
+    --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 a {
   font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+  color: var(--primary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
 }
+
 a:hover {
-  color: #535bf2;
+  color: var(--primary-dark);
 }
 
 body {
   margin: 0;
-  padding: 0;   min-width: 320px;
+  padding: 0;
+  min-width: 320px;
   min-height: 100vh;
-  }
+  background-color: var(--background-gray);
+}
 
 #root {
-  width: 100%;   max-width: none;   margin: 0;   padding: 0;   text-align: left; }
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.3;
+  margin-bottom: 0.8em;
+  color: var(--primary-dark);
+  font-weight: 600;
+}
 
 h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.5rem;
 }
 
 button {
-  border-radius: 8px;
+  border-radius: var(--border-radius-md);
   border: 1px solid transparent;
-  padding: 0.6em 1.2em;
+  padding: 0.8em 1.6em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #f9f9f9;   cursor: pointer;
-  transition: border-color 0.25s;
+  background-color: var(--primary);
+  color: white;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  box-shadow: 0 2px 4px var(--shadow);
 }
+
 button:hover {
-  border-color: #646cff;
+  background-color: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px var(--shadow);
 }
+
+button:active {
+  transform: translateY(0);
+}
+
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: 3px solid rgba(58, 90, 153, 0.2);
+}
+
+
+input, select, textarea {
+  padding: 0.85em 1em;
+  font-size: 1em;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-md);
+  transition: all var(--transition-fast);
+  background-color: white;
+  width: 100%;
+  color: var(--text-primary);
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(58, 90, 153, 0.2);
+}
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 1em 0;
+}
+
+th, td {
+  padding: 1.2em;
+  text-align: left;
+}
+
+th {
+  background-color: var(--primary);
+  color: white;
+  font-weight: 500;
+  position: relative;
+  overflow: hidden;
+}
+
+th:first-child {
+  border-top-left-radius: var(--border-radius-md);
+}
+
+th:last-child {
+  border-top-right-radius: var(--border-radius-md);
+}
+
+tr:nth-child(even) {
+  background-color: rgba(58, 90, 153, 0.05);
+}
+
+td {
+  border-bottom: 1px solid var(--border-color);
+}
+
+tr:hover {
+  background-color: rgba(58, 90, 153, 0.1);
+}
+
+.text-success { color: var(--success); }
+.text-warning { color: var(--warning); }
+.text-danger { color: var(--danger); }
+.text-primary { color: var(--primary); }
+.text-accent { color: var(--accent); }
+
+.bg-success { background-color: var(--success); color: white; }
+.bg-warning { background-color: var(--warning); color: white; }
+.bg-danger { background-color: var(--danger); color: white; }
+.bg-primary { background-color: var(--primary); color: white; }
+.bg-accent { background-color: var(--accent); color: white; }
+
+.react-datepicker-wrapper {
+  width: 100%;
+  display: block;
+}
+
+.react-datepicker__input-container {
+  width: 100%;
+}
+
+.react-datepicker {
+  font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.react-datepicker__header {
+  background-color: var(--primary);
+  border-bottom: none;
+  padding-top: 10px;
+}
+
+.react-datepicker__current-month,
+.react-datepicker__day-name {
+  color: white;
+}
+
+.react-datepicker__navigation {
+  top: 12px;
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__day--keyboard-selected {
+  background-color: var(--accent);
+  border-radius: 50%;
+}
+
+.react-datepicker__day:hover {
+  background-color: var(--background-gray);
+  border-radius: 50%;
+}
+
+:root.dark-theme {
+  --primary: #5a7abf;
+  --primary-light: #7a94d1;
+  --primary-dark: #3a5a99;
+  --accent: #ffc15c;
+  --accent-light: #ffd18c;
+  --accent-dark: #f8a829;
+  
+  --text-primary: #e0e6f0;
+  --text-secondary: #b0bac9;
+  --text-light: #8899ac;
+  
+  --background-light: #1e293b;
+  --background-gray: #141c2b;
+  --border-color: #2c3e50;
+  
+  --shadow: rgba(0, 0, 0, 0.3);
+  
+  background-color: var(--background-gray);
+  color: var(--text-primary);
+}
+
+.dark-theme button {
+  background-color: var(--primary);
+}
+
+.dark-theme .app-container {
+  background-color: var(--background-gray);
+}
+
+.dark-theme .navbar,
+.dark-theme .object-changes-container,
+.dark-theme .equipment-registry-container,
+.dark-theme .equipment-changes-container {
+  background-color: var(--background-light);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.dark-theme .enhanced-input,
+.dark-theme .enhanced-select,
+.dark-theme .enhanced-textarea,
+.dark-theme .react-datepicker__input-container input {
+  background-color: #141c2b;
+  border-color: #2c3e50;
+  color: var(--text-primary);
+}
+
+.dark-theme .data-table th {
+  background-color: var(--primary-dark);
+}
+
+.dark-theme .data-table tr:hover td {
+  background-color: rgba(90, 122, 191, 0.1);
+}
+
+.dark-theme .section-title,
+.dark-theme h1, 
+.dark-theme h2, 
+.dark-theme h3, 
+.dark-theme h4, 
+.dark-theme h5, 
+.dark-theme h6 {
+  color: var(--text-primary);
+}
+
+.dark-theme .success-message {
+  background-color: rgba(76, 175, 80, 0.1);
+}
+
+.dark-theme .error-message {
+  background-color: rgba(244, 67, 54, 0.1);
+}
+
+.dark-theme .react-datepicker {
+  background-color: var(--background-light);
+  border-color: var(--border-color);
+}
+
+.dark-theme .react-datepicker__day {
+  color: var(--text-primary);
+}
+
+.dark-theme .react-datepicker__day:hover {
+  background-color: rgba(90, 122, 191, 0.2);
+}
+
+.dark-theme .react-datepicker__day--outside-month {
+  color: var(--text-light);
+}
+
+.dark-theme .react-datepicker__day--selected {
+  background-color: var(--accent) !important;
+  color: var(--background-gray) !important;
+}
+
+.dark-theme .react-datepicker__day--disabled {
+  color: var(--text-light);
+  text-decoration: line-through;
+  opacity: 0.3;
+}
+
+
+.dark-theme {
+    color: var(--text-primary);
+}
+
+.dark-theme label, 
+.dark-theme .form-group label,
+.dark-theme .date-picker-field label {
+  color: var(--text-secondary);
+}
+
+.dark-theme input,
+.dark-theme select,
+.dark-theme textarea,
+.dark-theme .form-field input,
+.dark-theme .form-field select,
+.dark-theme .form-field textarea {
+  background-color: #141c2b;
+  border-color: #2c3e50;
+  color: var(--text-primary);
+}
+
+.dark-theme .form-field-icon {
+  color: var(--primary-light);
+}
+
+.dark-theme .object-change-form,
+.dark-theme .equipment-form,
+.dark-theme .equipment-change-form {
+  background-color: var(--background-light);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.dark-theme .submit-btn {
+  background-color: var(--primary);
+}
+
+.dark-theme .submit-btn:hover {
+  background-color: var(--primary-light);
+}
+
+.dark-theme .form-title {
+  color: var(--text-primary);
+  border-bottom-color: #2c3e50;
+}
+
+.dark-theme .object-change-list,
+.dark-theme .equipment-list {
+  background-color: var(--background-light);
+}
+
+.dark-theme input::placeholder,
+.dark-theme textarea::placeholder,
+.dark-theme select::placeholder {
+  color: var(--text-light);
+  opacity: 0.7;
+}
+
+
+.dark-theme input,
+.dark-theme select,
+.dark-theme textarea,
+.dark-theme .enhanced-input,
+.dark-theme .enhanced-select,
+.dark-theme .enhanced-textarea {
+  background-color: #141c2b !important;
+  color: var(--text-primary) !important;
+  border-color: #2c3e50 !important;
 }

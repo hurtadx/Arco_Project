@@ -2,26 +2,135 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
-  background-color: #333;
-  color: white;
+  padding: 0.75rem 2rem;
+  background-color: white;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  transition: all var(--transition-normal);
+}
+
+.navbar:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
 }
 
 .navbar-title {
+  font-size: 1.75rem;
+  margin: 0;
+  font-weight: 700;
+  color: var(--primary);
+  letter-spacing: -0.5px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  position: relative;
+}
+
+.navbar-title:after {
+  content: 'v1.0';
+  position: absolute;
+  top: 0;
+  right: -25px;
+  font-size: 0.6rem;
+  color: var(--text-light);
+  font-weight: normal;
+}
+
+.logo-icon {
   font-size: 1.5rem;
+  color: var(--accent);
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.1));
 }
 
 .nav-links {
   list-style: none;
   display: flex;
-  gap: 1rem;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
 }
 
 .nav-links li {
   cursor: pointer;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--border-radius-md);
+  font-weight: 500;
+  transition: all var(--transition-fast);
+  color: var(--text-secondary);
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nav-icon {
+  font-size: 0.9rem;
+  transition: transform var(--transition-fast);
+}
+
+.nav-links li:hover {
+  background-color: var(--background-gray);
+  color: var(--primary);
+}
+
+.nav-links li:hover .nav-icon {
+  transform: scale(1.2);
 }
 
 .nav-links li.active {
-  font-weight: bold;
-  text-decoration: underline;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(58, 90, 153, 0.25);
+}
+
+.nav-links li.active .nav-icon {
+  color: var(--accent-light);
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    padding: 1rem;
+  }
+  
+  .navbar-title {
+    margin-bottom: 0.75rem;
+  }
+  
+  .nav-links {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .nav-links li {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.9rem;
+  }
+  
+  .navbar-actions {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+  }
+}
+
+/* Agregar esto después de los estilos existentes */
+.navbar-brand {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }

@@ -1,22 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './EquipmentChangeForm.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { getEquipment } from '../../data/equipmentStore';
+import { addEquipmentChange } from '../../data/equipmentChangesStore';
+import DatePickerField from '../common/DatePickerField';
+import AnimatedContainer from '../common/AnimatedContainer';
 
-function EquipmentChangeForm() {
+const EquipmentChangeForm = () => {
+  const [equipment, setEquipment] = useState([]);
+  
   const [formData, setFormData] = useState({
-    equipment: '',
+    equipmentId: '',
     previousOwner: '',
     newOwner: '',
     reason: '',
-    fromDate: '',
-    toDate: new Date().toISOString().split('T')[0]
+    fromDate: new Date().toISOString().split('T')[0],
+    toDate: ''
   });
   
+  const [successMessage, setSuccessMessage] = useState('');
+  const [selectedEquipment, setSelectedEquipment] = useState(null);
   
-  const equipments = [
-    { id: '1', name: 'Laptop Dell XPS 13' },
-    { id: '2', name: 'Monitor LG 27"' },
-    { id: '3', name: 'Teclado Logitech MX' }
-  ];
+  
+  useEffect(() => {
+    const loadEquipment = async () => {
+      try {
+        const data = await getEquipment();
+        if (Array.isArray(data)) {
+          setEquipment(data);
+        } else {
+          console.error("Los datos de equipo no son un array:", data);
+          setEquipment([]); 
+        }
+      } catch (error) {
+        console.error("Error al cargar equipos:", error);
+        setEquipment([]);
+      }
+    };
+    
+    loadEquipment();
+  }, []);
   
   const reasons = [
     'Actualización', 
@@ -28,78 +51,136 @@ function EquipmentChangeForm() {
   
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
+    
+    if (name === 'equipmentId' && value) {
+      const found = equipment.find(eq => eq.id === value);
+      setSelectedEquipment(found);
+      
+      
+      setFormData(prevData => ({
+        ...prevData,
+        [name]: value,
+        previousOwner: found ? found.initialOwner : ''
+      }));
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value
+      });
+    }
   };
   
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Cambio de equipo registrado:', formData);
+    
+    
+    const changeData = addEquipmentChange(formData);
+    
+    
+    const equipName = selectedEquipment ? selectedEquipment.model : 'Equipo';
+    setSuccessMessage(`Cambio de "${equipName}" registrado correctamente`);
+    
+    
+    setTimeout(() => {
+      setSuccessMessage('');
+    }, 3000);
     
     
     setFormData({
-      equipment: '',
+      equipmentId: '',
       previousOwner: '',
       newOwner: '',
       reason: '',
-      fromDate: '',
-      toDate: new Date().toISOString().split('T')[0]
+      fromDate: new Date().toISOString().split('T')[0],
+      toDate: ''
     });
+    setSelectedEquipment(null);
   };
   
   return (
-    <div className="equipment-change-form">
-      <form onSubmit={handleSubmit}>
+    <AnimatedContainer animation="slide-up" className="equipment-change-form form-fade-in">
+      <h3 className="form-title">
+        <FontAwesomeIcon icon="exchange" className="form-icon" />
+        Nuevo cambio de equipo
+      </h3>
+      
+      {successMessage && (
+        <div className="success-message">
+          <FontAwesomeIcon icon="check-circle" />
+          {successMessage}
+          <span className="message-progress"></span>
+        </div>
+      )}
+      
+      <form onSubmit={handleSubmit} className="floating-form">
         <div className="form-group">
-          <label htmlFor="equipment">Equipo:</label>
+          <label htmlFor="equipmentId">
+            <FontAwesomeIcon icon="laptop" className="form-field-icon" />
+            Equipo:
+          </label>
           <select
-            id="equipment"
-            name="equipment"
-            value={formData.equipment}
+            id="equipmentId"
+            name="equipmentId"
+            value={formData.equipmentId}
             onChange={handleChange}
             required
+            className="enhanced-select"
           >
             <option value="">Seleccione un equipo</option>
-            {equipments.map(eq => (
-              <option key={eq.id} value={eq.id}>{eq.name}</option>
-            ))}
+            {Array.isArray(equipment) ? equipment.map(eq => (
+              <option key={eq.id} value={eq.id}>
+                {eq.model} - {eq.inventoryNumber || 'Sin número de inventario'}
+              </option>
+            )) : <option value="">No hay equipos disponibles</option>}
           </select>
         </div>
         
         <div className="form-group">
-          <label htmlFor="previousOwner">Propietario Anterior:</label>
+          <label htmlFor="previousOwner">
+            <FontAwesomeIcon icon="user" className="form-field-icon" />
+            Propietario Anterior:
+          </label>
           <input
             type="text"
             id="previousOwner"
             name="previousOwner"
             value={formData.previousOwner}
             onChange={handleChange}
+            placeholder="Nombre del propietario anterior"
             required
+            className="enhanced-input"
           />
         </div>
         
         <div className="form-group">
-          <label htmlFor="newOwner">Nuevo Propietario:</label>
+          <label htmlFor="newOwner">
+            <FontAwesomeIcon icon="user" className="form-field-icon" />
+            Nuevo Propietario:
+          </label>
           <input
             type="text"
             id="newOwner"
             name="newOwner"
             value={formData.newOwner}
             onChange={handleChange}
+            placeholder="Nombre del nuevo propietario"
             required
+            className="enhanced-input"
           />
         </div>
         
         <div className="form-group">
-          <label htmlFor="reason">Motivo del Cambio:</label>
+          <label htmlFor="reason">
+            <FontAwesomeIcon icon="clipboard" className="form-field-icon" />
+            Motivo del Cambio:
+          </label>
           <select
             id="reason"
             name="reason"
             value={formData.reason}
             onChange={handleChange}
             required
+            className="enhanced-select"
           >
             <option value="">Seleccione un motivo</option>
             {reasons.map(reason => (
@@ -108,34 +189,38 @@ function EquipmentChangeForm() {
           </select>
         </div>
         
-        <div className="form-group">
-          <label htmlFor="fromDate">Desde:</label>
-          <input
-            type="date"
-            id="fromDate"
-            name="fromDate"
-            value={formData.fromDate}
-            onChange={handleChange}
-            required
-          />
+        <div className="form-row">
+          <div className="form-group half-width">
+            <DatePickerField
+              label="Desde"
+              name="fromDate"
+              value={formData.fromDate}
+              onChange={handleChange}
+              required={true}
+              maxDate={new Date()}
+            />
+          </div>
+          
+          <div className="form-group half-width">
+            <DatePickerField
+              label="Hasta"
+              name="toDate"
+              value={formData.toDate}
+              onChange={handleChange}
+              optional={true}
+              minDate={formData.fromDate ? new Date(formData.fromDate) : null}
+              allowFutureDates={true} 
+            />
+          </div>
         </div>
         
-        <div className="form-group">
-          <label htmlFor="toDate">Hasta:</label>
-          <input
-            type="date"
-            id="toDate"
-            name="toDate"
-            value={formData.toDate}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        
-        <button type="submit" className="submit-btn">Registrar Cambio de Equipo</button>
+        <button type="submit" className="submit-btn">
+          <FontAwesomeIcon icon="save" />
+          Registrar Cambio
+        </button>
       </form>
-    </div>
+    </AnimatedContainer>
   );
-}
+};
 
 export default EquipmentChangeForm;

@@ -1,6 +1,6 @@
 import * as XLSX from 'xlsx';
 
-let objectChanges = [];
+let equipment = [];
 let isReadOnly = false;
 
 
@@ -17,14 +17,17 @@ export const checkReadOnlyStatus = async () => {
 export const loadFromExcel = async () => {
   try {
     if (window.electron) {
+      const dataPath = await window.electron.invoke('get-data-path');
+      
+      
       const result = await window.electron.invoke('load-excel-data', {
-        fileName: 'cambios-objetos.xlsx',
-        sheet: 'CambiosObjetos'
+        fileName: 'equipos.xlsx',
+        sheet: 'Equipos'
       });
       
       if (result.success) {
-        objectChanges = result.data;
-        console.log(`${objectChanges.length} cambios de objetos cargados desde Excel.`);
+        equipment = result.data;
+        console.log(`${equipment.length} equipos cargados desde Excel.`);
         return true;
       }
     }
@@ -37,19 +40,22 @@ export const loadFromExcel = async () => {
 
 
 const saveToExcel = async () => {
+  
   await checkReadOnlyStatus();
   if (isReadOnly) return false;
   
   try {
     if (window.electron) {
+      
       await window.electron.invoke('create-backup', {
-        fileName: 'cambios-objetos.xlsx'
+        fileName: 'equipos.xlsx'
       });
       
+      
       const result = await window.electron.invoke('save-excel-data', {
-        fileName: 'cambios-objetos.xlsx',
-        sheet: 'CambiosObjetos',
-        data: objectChanges
+        fileName: 'equipos.xlsx',
+        sheet: 'Equipos',
+        data: equipment
       });
       
       return result.success;
@@ -61,44 +67,80 @@ const saveToExcel = async () => {
   }
 };
 
-export const addObjectChange = async (changeData) => {
+export const addEquipment = async (equipData) => {
+  
   await checkReadOnlyStatus();
   if (isReadOnly) {
     throw new Error('La aplicación está en modo solo lectura. No se pueden realizar cambios.');
   }
   
-  if (objectChanges.length === 0) {
+  
+  if (equipment.length === 0) {
     await loadFromExcel();
   }
   
-  const newChange = {
+  const newEquipment = {
     id: Date.now().toString(),
-    ...changeData,
-    timestamp: new Date().toISOString()
+    ...equipData,
+    createdAt: new Date().toISOString()
   };
   
-  objectChanges.push(newChange);
+  equipment.push(newEquipment);
+  
   
   await saveToExcel();
   
-  console.log('Nuevo cambio de objeto registrado:', newChange);
-  return newChange;
+  console.log('Nuevo equipo registrado:', newEquipment);
+  return newEquipment;
 };
 
-export const getObjectChanges = async () => {
-  if (objectChanges.length === 0) {
+export const getEquipment = async () => {
+  
+  if (equipment.length === 0) {
     await loadFromExcel();
   }
-  return [...objectChanges];
+  return [...equipment];
+};
+
+export const getEquipmentById = async (id) => {
+  
+  if (equipment.length === 0) {
+    await loadFromExcel();
+  }
+  return equipment.find(eq => eq.id === id);
+};
+
+export const updateEquipment = async (id, updates) => {
+  
+  await checkReadOnlyStatus();
+  if (isReadOnly) {
+    throw new Error('La aplicación está en modo solo lectura. No se pueden realizar cambios.');
+  }
+  
+  const index = equipment.findIndex(eq => eq.id === id);
+  if (index !== -1) {
+    equipment[index] = {
+      ...equipment[index],
+      ...updates,
+      lastUpdated: new Date().toISOString()
+    };
+    
+    
+    await saveToExcel();
+    
+    console.log('Equipo actualizado:', equipment[index]);
+    return equipment[index];
+  }
+  return null;
 };
 
 export const exportToExcel = async () => {
   try {
     if (window.electron) {
       const result = await window.electron.invoke('export-dialog', {
-        fileName: 'cambios-objetos.xlsx',
-        sheet: 'CambiosObjetos',
-        data: objectChanges
+        fileName: 'equipos.xlsx',
+        sheet: 'Equipos',
+        data: equipment
       });
       
       return result.success;
@@ -111,6 +153,7 @@ export const exportToExcel = async () => {
 };
 
 export const importFromExcel = async (file) => {
+  
   await checkReadOnlyStatus();
   if (isReadOnly) {
     throw new Error('La aplicación está en modo solo lectura. No se pueden realizar cambios.');
@@ -120,13 +163,13 @@ export const importFromExcel = async (file) => {
     if (window.electron) {
       const result = await window.electron.invoke('import-excel-file', {
         filePath: file.path,
-        targetFile: 'cambios-objetos.xlsx',
-        sheet: 'CambiosObjetos'
+        targetFile: 'equipos.xlsx',
+        sheet: 'Equipos'
       });
       
       if (result.success) {
-        objectChanges = result.data;
-        return objectChanges;
+        equipment = result.data;
+        return equipment;
       } else {
         throw new Error(result.error || 'Error al importar archivo');
       }

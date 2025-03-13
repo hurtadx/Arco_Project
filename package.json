@@ -3,19 +3,24 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "main": "electron/main.js",
+  "main": "electron/main.cjs",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview",
-    "electron:dev": "cross-env NODE_ENV=development concurrently \"vite\" \"wait-on http://localhost:5173 && electron .\"",
-    "electron:build": "vite build && electron-builder",
-    "electron:preview": "vite build && electron ."
+    "electron:dev": "concurrently \"npm run dev\" \"cross-env NODE_ENV=development electron electron/main.cjs\"",
+    "electron:build": "npm run build && electron-builder --config electron-builder.cjs"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.7.2",
+    "@fortawesome/free-regular-svg-icons": "^6.7.2",
+    "@fortawesome/free-solid-svg-icons": "^6.7.2",
+    "@fortawesome/react-fontawesome": "^0.2.2",
+    "date-fns": "^4.1.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-datepicker": "^8.2.0",
+    "react-dom": "^19.0.0",
+    "xlsx": "^0.18.5",
+    "electron-store": "^8.0.1"
   },
   "devDependencies": {
     "@electron/remote": "^2.1.2",
@@ -23,10 +28,10 @@
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react": "^4.3.4",
-    "concurrently": "^9.1.2",
+    "concurrently": "^8.0.1",
     "cross-env": "^7.0.3",
-    "electron": "^35.0.1",
-    "electron-builder": "^25.1.8",
+    "electron": "^25.0.0",
+    "electron-builder": "^24.4.0",
     "eslint": "^9.21.0",
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.19",

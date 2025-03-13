@@ -1,0 +1,205 @@
+.form-field {
+  margin-bottom: 1.5rem;
+  position: relative;
+  transition: all var(--transition-normal);
+}
+
+.form-field label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.form-field-icon {
+  color: var(--primary);
+  font-size: 0.9rem;
+}
+
+.enhanced-input,
+.enhanced-select,
+.enhanced-textarea {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-md);
+  background-color: white;
+  font-size: 1rem;
+  transition: all var(--transition-normal);
+  position: relative;
+  font-family: inherit;
+  color: var(--text-primary);
+}
+
+.enhanced-input:focus,
+.enhanced-select:focus,
+.enhanced-textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(58, 90, 153, 0.2);
+}
+
+.select-container {
+  position: relative;
+}
+
+.enhanced-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233a5a99' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1em;
+  padding-right: 2.5rem;
+}
+
+.enhanced-textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.form-error .enhanced-input,
+.form-error .enhanced-select,
+.form-error .enhanced-textarea {
+  border-color: var(--danger);
+  background-color: rgba(244, 67, 54, 0.05);
+}
+
+.form-error label {
+  color: var(--danger);
+}
+
+.error-text {
+  color: var(--danger);
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.optional-label {
+  font-weight: normal;
+  color: var(--text-tertiary);
+  font-size: 0.85rem;
+  margin-left: 0.5rem;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.form-field.valid .enhanced-input,
+.form-field.valid .enhanced-select,
+.form-field.valid .enhanced-textarea {
+  border-color: var(--success);
+  background-color: rgba(76, 175, 80, 0.03);
+  padding-right: 2.5rem;
+}
+
+.form-field.valid::after {
+  content: '\f00c';
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+  color: var(--success);
+  position: absolute;
+  right: 1rem;
+  bottom: 0.85rem;
+  z-index: 1;
+}
+
+.enhanced-input:disabled,
+.enhanced-select:disabled,
+.enhanced-textarea:disabled {
+  background-color: var(--background-gray);
+  color: var(--text-tertiary);
+  cursor: not-allowed;
+}
+
+.enhanced-input:focus,
+.enhanced-select:focus,
+.enhanced-textarea:focus {
+  transform: translateY(-2px);
+}
+
+.input-with-icon {
+  position: relative;
+}
+
+.input-with-icon .enhanced-input {
+  padding-left: 2.5rem;
+}
+
+.input-with-icon .input-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-secondary);
+  pointer-events: none;
+}
+
+.field-tooltip {
+  position: absolute;
+  right: -10px;
+  top: 0;
+  color: var(--text-tertiary);
+  cursor: help;
+}
+
+.field-tooltip:hover::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: -40px;
+  right: 0;
+  background-color: var(--primary-dark);
+  color: white;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--border-radius-sm);
+  font-size: 0.8rem;
+  width: max-content;
+  max-width: 200px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+}
+
+.field-tooltip:hover::after {
+  content: '';
+  position: absolute;
+  top: -10px;
+  right: 8px;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid var(--primary-dark);
+  z-index: 10;
+}
+
+@media (max-width: 576px) {
+  .form-field {
+    margin-bottom: 1rem;
+  }
+  
+  .enhanced-input, 
+  .enhanced-select, 
+  .enhanced-textarea {
+    padding: 0.75rem 0.85rem;
+    font-size: 0.95rem;
+  }
+  
+  .form-field label {
+    font-size: 0.9rem;
+  }
+}
+
+.form-field.focused label {
+  color: var(--primary);
+}
+
+.form-field.focused .form-field-icon {
+  transform: scale(1.2);
+  color: var(--primary);
+}
