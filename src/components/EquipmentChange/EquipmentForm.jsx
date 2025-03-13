@@ -22,7 +22,7 @@ function EquipmentForm() {
     
     console.log('Equipo registrado:', formData);
     
-    
+    // Reset form
     setFormData({
       model: '',
       initialOwner: '',
