@@ -1,24 +1,48 @@
-:root { 
+:root {
+  /* Paleta de colores elegante */
   --primary: #3a5a99;
   --primary-light: #5a7abf;
   --primary-dark: #2c4577;
   --accent: #f8a829;
+  --accent-light: #ffc15c;
+  --accent-dark: #e69310;
+  --success: #4caf50;
+  --warning: #ff9800;
+  --danger: #f44336;
   --text-primary: #333333;
   --text-secondary: #555555;
+  --text-light: #777777;
   --background-light: #ffffff;
   --background-gray: #f5f7fb;
   --border-color: #e0e6f0;
   --shadow: rgba(0, 0, 0, 0.1);
   
+  /* Espaciado y tamaños */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-xxl: 3rem;
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+  --border-radius-xl: 16px;
+
+  /* Fuentes */
   font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   line-height: 1.6;
   font-weight: 400;
   color: var(--text-primary);
-  background-color: var(--background-light);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  
+  /* Transiciones */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
 }
 
 * {
@@ -31,7 +55,7 @@ a {
   font-weight: 500;
   color: var(--primary);
   text-decoration: none;
-  transition: color 0.3s ease;
+  transition: color var(--transition-fast);
 }
 
 a:hover {
@@ -73,7 +97,7 @@ h3 {
 }
 
 button {
-  border-radius: 6px;
+  border-radius: var(--border-radius-md);
   border: 1px solid transparent;
   padding: 0.8em 1.6em;
   font-size: 1em;
@@ -82,7 +106,7 @@ button {
   background-color: var(--primary);
   color: white;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  transition: all var(--transition-fast);
   box-shadow: 0 2px 4px var(--shadow);
 }
 
@@ -101,14 +125,16 @@ button:focus-visible {
   outline: 3px solid rgba(58, 90, 153, 0.2);
 }
 
+/* Elementos de formulario mejorados */
 input, select, textarea {
-  padding: 0.7em 1em;
+  padding: 0.85em 1em;
   font-size: 1em;
   border: 1px solid var(--border-color);
-  border-radius: 6px;
-  transition: all 0.2s ease;
+  border-radius: var(--border-radius-md);
+  transition: all var(--transition-fast);
   background-color: white;
   width: 100%;
+  color: var(--text-primary);
 }
 
 input:focus, select:focus, textarea:focus {
@@ -117,6 +143,7 @@ input:focus, select:focus, textarea:focus {
   box-shadow: 0 0 0 3px rgba(58, 90, 153, 0.2);
 }
 
+/* Tablas con estilo mejorado */
 table {
   width: 100%;
   border-collapse: separate;
@@ -125,7 +152,7 @@ table {
 }
 
 th, td {
-  padding: 1em;
+  padding: 1.2em;
   text-align: left;
 }
 
@@ -133,14 +160,16 @@ th {
   background-color: var(--primary);
   color: white;
   font-weight: 500;
+  position: relative;
+  overflow: hidden;
 }
 
 th:first-child {
-  border-top-left-radius: 8px;
+  border-top-left-radius: var(--border-radius-md);
 }
 
 th:last-child {
-  border-top-right-radius: 8px;
+  border-top-right-radius: var(--border-radius-md);
 }
 
 tr:nth-child(even) {
@@ -153,4 +182,60 @@ td {
 
 tr:hover {
   background-color: rgba(58, 90, 153, 0.1);
+}
+
+/* Clases de utilidad */
+.text-success { color: var(--success); }
+.text-warning { color: var(--warning); }
+.text-danger { color: var(--danger); }
+.text-primary { color: var(--primary); }
+.text-accent { color: var(--accent); }
+
+.bg-success { background-color: var(--success); color: white; }
+.bg-warning { background-color: var(--warning); color: white; }
+.bg-danger { background-color: var(--danger); color: white; }
+.bg-primary { background-color: var(--primary); color: white; }
+.bg-accent { background-color: var(--accent); color: white; }
+
+/* Estilos para DatePicker */
+.react-datepicker-wrapper {
+  width: 100%;
+  display: block;
+}
+
+.react-datepicker__input-container {
+  width: 100%;
+}
+
+.react-datepicker {
+  font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.react-datepicker__header {
+  background-color: var(--primary);
+  border-bottom: none;
+  padding-top: 10px;
+}
+
+.react-datepicker__current-month,
+.react-datepicker__day-name {
+  color: white;
+}
+
+.react-datepicker__navigation {
+  top: 12px;
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__day--keyboard-selected {
+  background-color: var(--accent);
+  border-radius: 50%;
+}
+
+.react-datepicker__day:hover {
+  background-color: var(--background-gray);
+  border-radius: 50%;
 }
