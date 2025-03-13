@@ -1,6 +1,5 @@
 :root {
-  /* Paleta de colores elegante */
-  --primary: #3a5a99;
+    --primary: #3a5a99;
   --primary-light: #5a7abf;
   --primary-dark: #2c4577;
   --accent: #f8a829;
@@ -17,8 +16,7 @@
   --border-color: #e0e6f0;
   --shadow: rgba(0, 0, 0, 0.1);
   
-  /* Espaciado y tamaños */
-  --spacing-xs: 0.25rem;
+    --spacing-xs: 0.25rem;
   --spacing-sm: 0.5rem;
   --spacing-md: 1rem;
   --spacing-lg: 1.5rem;
@@ -29,8 +27,7 @@
   --border-radius-lg: 12px;
   --border-radius-xl: 16px;
 
-  /* Fuentes */
-  font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   line-height: 1.6;
   font-weight: 400;
   color: var(--text-primary);
@@ -39,8 +36,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   
-  /* Transiciones */
-  --transition-fast: 0.2s ease;
+    --transition-fast: 0.2s ease;
   --transition-normal: 0.3s ease;
   --transition-slow: 0.5s ease;
 }
@@ -125,7 +121,7 @@ button:focus-visible {
   outline: 3px solid rgba(58, 90, 153, 0.2);
 }
 
-/* Elementos de formulario mejorados */
+
 input, select, textarea {
   padding: 0.85em 1em;
   font-size: 1em;
@@ -143,7 +139,6 @@ input:focus, select:focus, textarea:focus {
   box-shadow: 0 0 0 3px rgba(58, 90, 153, 0.2);
 }
 
-/* Tablas con estilo mejorado */
 table {
   width: 100%;
   border-collapse: separate;
@@ -184,7 +179,6 @@ tr:hover {
   background-color: rgba(58, 90, 153, 0.1);
 }
 
-/* Clases de utilidad */
 .text-success { color: var(--success); }
 .text-warning { color: var(--warning); }
 .text-danger { color: var(--danger); }
@@ -197,7 +191,6 @@ tr:hover {
 .bg-primary { background-color: var(--primary); color: white; }
 .bg-accent { background-color: var(--accent); color: white; }
 
-/* Estilos para DatePicker */
 .react-datepicker-wrapper {
   width: 100%;
   display: block;
@@ -238,4 +231,175 @@ tr:hover {
 .react-datepicker__day:hover {
   background-color: var(--background-gray);
   border-radius: 50%;
+}
+
+:root.dark-theme {
+  --primary: #5a7abf;
+  --primary-light: #7a94d1;
+  --primary-dark: #3a5a99;
+  --accent: #ffc15c;
+  --accent-light: #ffd18c;
+  --accent-dark: #f8a829;
+  
+  --text-primary: #e0e6f0;
+  --text-secondary: #b0bac9;
+  --text-light: #8899ac;
+  
+  --background-light: #1e293b;
+  --background-gray: #141c2b;
+  --border-color: #2c3e50;
+  
+  --shadow: rgba(0, 0, 0, 0.3);
+  
+  background-color: var(--background-gray);
+  color: var(--text-primary);
+}
+
+.dark-theme button {
+  background-color: var(--primary);
+}
+
+.dark-theme .app-container {
+  background-color: var(--background-gray);
+}
+
+.dark-theme .navbar,
+.dark-theme .object-changes-container,
+.dark-theme .equipment-registry-container,
+.dark-theme .equipment-changes-container {
+  background-color: var(--background-light);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.dark-theme .enhanced-input,
+.dark-theme .enhanced-select,
+.dark-theme .enhanced-textarea,
+.dark-theme .react-datepicker__input-container input {
+  background-color: #141c2b;
+  border-color: #2c3e50;
+  color: var(--text-primary);
+}
+
+.dark-theme .data-table th {
+  background-color: var(--primary-dark);
+}
+
+.dark-theme .data-table tr:hover td {
+  background-color: rgba(90, 122, 191, 0.1);
+}
+
+.dark-theme .section-title,
+.dark-theme h1, 
+.dark-theme h2, 
+.dark-theme h3, 
+.dark-theme h4, 
+.dark-theme h5, 
+.dark-theme h6 {
+  color: var(--text-primary);
+}
+
+.dark-theme .success-message {
+  background-color: rgba(76, 175, 80, 0.1);
+}
+
+.dark-theme .error-message {
+  background-color: rgba(244, 67, 54, 0.1);
+}
+
+.dark-theme .react-datepicker {
+  background-color: var(--background-light);
+  border-color: var(--border-color);
+}
+
+.dark-theme .react-datepicker__day {
+  color: var(--text-primary);
+}
+
+.dark-theme .react-datepicker__day:hover {
+  background-color: rgba(90, 122, 191, 0.2);
+}
+
+.dark-theme .react-datepicker__day--outside-month {
+  color: var(--text-light);
+}
+
+.dark-theme .react-datepicker__day--selected {
+  background-color: var(--accent) !important;
+  color: var(--background-gray) !important;
+}
+
+.dark-theme .react-datepicker__day--disabled {
+  color: var(--text-light);
+  text-decoration: line-through;
+  opacity: 0.3;
+}
+
+
+.dark-theme {
+    color: var(--text-primary);
+}
+
+.dark-theme label, 
+.dark-theme .form-group label,
+.dark-theme .date-picker-field label {
+  color: var(--text-secondary);
+}
+
+.dark-theme input,
+.dark-theme select,
+.dark-theme textarea,
+.dark-theme .form-field input,
+.dark-theme .form-field select,
+.dark-theme .form-field textarea {
+  background-color: #141c2b;
+  border-color: #2c3e50;
+  color: var(--text-primary);
+}
+
+.dark-theme .form-field-icon {
+  color: var(--primary-light);
+}
+
+.dark-theme .object-change-form,
+.dark-theme .equipment-form,
+.dark-theme .equipment-change-form {
+  background-color: var(--background-light);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.dark-theme .submit-btn {
+  background-color: var(--primary);
+}
+
+.dark-theme .submit-btn:hover {
+  background-color: var(--primary-light);
+}
+
+.dark-theme .form-title {
+  color: var(--text-primary);
+  border-bottom-color: #2c3e50;
+}
+
+.dark-theme .object-change-list,
+.dark-theme .equipment-list {
+  background-color: var(--background-light);
+}
+
+.dark-theme input::placeholder,
+.dark-theme textarea::placeholder,
+.dark-theme select::placeholder {
+  color: var(--text-light);
+  opacity: 0.7;
+}
+
+
+.dark-theme input,
+.dark-theme select,
+.dark-theme textarea,
+.dark-theme .enhanced-input,
+.dark-theme .enhanced-select,
+.dark-theme .enhanced-textarea {
+  background-color: #141c2b !important;
+  color: var(--text-primary) !important;
+  border-color: #2c3e50 !important;
 }

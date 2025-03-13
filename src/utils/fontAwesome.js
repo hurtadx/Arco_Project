@@ -5,12 +5,14 @@ import {
   faPencilAlt, faTrash, faSort,
   faChevronRight, faChevronLeft, faCalendarAlt,
   faUser, faBuilding, faBox, faCheck,
-  faArrowRight, faSave, faUndo, faRedo
+  faArrowRight, faSave, faUndo, faRedo,
+  faSun, faMoon, faCheckCircle, faExclamationCircle,
+  faExclamationTriangle, faInfoCircle, faTimes,
+  faSpinner
 } from '@fortawesome/free-solid-svg-icons';
 import { 
   faClipboard, faBell, faQuestionCircle 
 } from '@fortawesome/free-regular-svg-icons';
-
 
 library.add(
   faClipboardList, faLaptop, faExchange,
@@ -19,5 +21,8 @@ library.add(
   faChevronRight, faChevronLeft, faCalendarAlt,
   faUser, faBuilding, faBox, faCheck,
   faArrowRight, faSave, faUndo, faRedo,
+  faSun, faMoon, faCheckCircle, faExclamationCircle,
+  faExclamationTriangle, faInfoCircle, faTimes,
+  faSpinner,
   faClipboard, faBell, faQuestionCircle
 );

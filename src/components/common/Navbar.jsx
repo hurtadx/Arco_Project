@@ -1,14 +1,18 @@
 import React from 'react';
 import './Navbar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import ThemeToggle from './ThemeToggle';
 
 function Navbar({ activeTab, setActiveTab }) {
   return (
     <nav className="navbar">
-      <h1 className="navbar-title">
-        <FontAwesomeIcon icon={['fas', 'clipboard-list']} className="logo-icon" />
-        ARCO
-      </h1>
+      <div className="navbar-brand">
+        <h1 className="navbar-title">
+          <FontAwesomeIcon icon={['fas', 'clipboard-list']} className="logo-icon" />
+          ARCO
+        </h1>
+      </div>
+      
       <ul className="nav-links">
         <li 
           className={activeTab === 'objectChanges' ? 'active' : ''} 
@@ -32,6 +36,10 @@ function Navbar({ activeTab, setActiveTab }) {
           Cambio de Equipos
         </li>
       </ul>
+      
+      <div className="navbar-actions">
+        <ThemeToggle />
+      </div>
     </nav>
   );
 }

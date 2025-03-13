@@ -115,4 +115,22 @@
     padding: 0.5rem 0.75rem;
     font-size: 0.9rem;
   }
+  
+  .navbar-actions {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+  }
+}
+
+/* Agregar esto después de los estilos existentes */
+.navbar-brand {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
