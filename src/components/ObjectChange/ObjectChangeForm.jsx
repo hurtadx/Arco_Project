@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import './ObjectChangeForm.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { addObjectChange } from '../../data/objectChangesStore';
+import { addObjectChange, getObjectChanges } from '../../data/objectChangesStore';
+import { exportToExcel } from '../../utils/exportUtils';
 
 function ObjectChangeForm() {
   const [formData, setFormData] = useState({
@@ -154,6 +155,18 @@ function ObjectChangeForm() {
           Registrar Cambio
         </button>
       </form>
+      <div className="section-actions">
+        <button 
+          className="btn btn-accent"
+          onClick={() => {
+            const objectChanges = getObjectChanges();
+            exportToExcel(objectChanges);
+          }}
+        >
+          <FontAwesomeIcon icon={['fas', 'file-export']} />
+          Exportar a Excel
+        </button>
+      </div>
     </div>
   );
 }
