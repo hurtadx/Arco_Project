@@ -9,10 +9,17 @@ import {
   faSun, faMoon, faCheckCircle, faExclamationCircle,
   faExclamationTriangle, faInfoCircle, faTimes,
   faSpinner, faLock, faLockOpen,
-  faDatabase, faSync  
+  faDatabase, faSync,  
+  faExchangeAlt, faStar, faHistory,
+  
+  faClipboard
 } from '@fortawesome/free-solid-svg-icons';
+
+
 import { 
-  faClipboard, faBell, faQuestionCircle 
+  faBell, faQuestionCircle, 
+  
+  faClipboard as farClipboard
 } from '@fortawesome/free-regular-svg-icons';
 
 library.add(
@@ -25,6 +32,9 @@ library.add(
   faSun, faMoon, faCheckCircle, faExclamationCircle,
   faExclamationTriangle, faInfoCircle, faTimes,
   faSpinner, faLock, faLockOpen,
-  faDatabase, faSync,  
-  faClipboard, faBell, faQuestionCircle
+  faDatabase, faSync,
+  faBell, faQuestionCircle,
+  faExchangeAlt, faStar, faHistory,
+  
+  faClipboard, farClipboard
 );

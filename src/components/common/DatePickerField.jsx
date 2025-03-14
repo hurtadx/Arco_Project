@@ -5,7 +5,6 @@ import es from 'date-fns/locale/es';
 import 'react-datepicker/dist/react-datepicker.css';
 import './DatePickerField.css';
 
-
 registerLocale('es', es);
 
 const DatePickerField = ({ 
@@ -26,8 +25,19 @@ const DatePickerField = ({
   
   let dateValue = null;
   if (value) {
-    const [year, month, day] = value.split('-');
-    dateValue = new Date(year, month - 1, day);
+    try {
+      const [year, month, day] = value.split('-');
+      const parsedDate = new Date(year, month - 1, day);
+      
+      
+      if (!isNaN(parsedDate.getTime())) {
+        dateValue = parsedDate;
+      } else {
+        console.warn(`Fecha inválida detectada en DatePickerField: ${value}`);
+      }
+    } catch (error) {
+      console.error(`Error al parsear fecha en DatePickerField: ${value}`, error);
+    }
   }
 
   
@@ -39,9 +49,14 @@ const DatePickerField = ({
       return;
     }
     
-    
-    const formattedDate = date.toISOString().split('T')[0];
-    onChange({ target: { name, value: formattedDate } });
+    try {
+      
+      const formattedDate = date.toISOString().split('T')[0];
+      onChange({ target: { name, value: formattedDate } });
+    } catch (error) {
+      console.error("Error al formatear fecha:", error);
+      onChange({ target: { name, value: '' } });
+    }
   };
 
   const handleClick = () => {

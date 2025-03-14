@@ -37,3 +37,103 @@ th {
 tr:hover {
   background-color: #f1f1f1;
 }
+
+
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal-container {
+  max-width: 800px;
+  width: 100%;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.history-btn {
+  background-color: #8bc34a;
+}
+
+.history-btn:hover {
+  background-color: #7cb342;
+}
+
+.dark-theme .modal-overlay {
+  background-color: rgba(0, 0, 0, 0.7); }
+
+.dark-theme .equipment-history {
+  background-color: var(--background-light);   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); }
+
+.dark-theme .history-header {
+  border-bottom-color: var(--border-color); }
+
+.dark-theme .close-btn {
+  color: var(--text-light);
+}
+
+.dark-theme .close-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.dark-theme .current-status {
+  background-color: rgba(58, 90, 153, 0.2);   border-left-color: var(--primary);
+}
+
+.dark-theme .timeline-content {
+  background-color: var(--background-gray);   border-color: var(--border-color);
+}
+
+.dark-theme .timeline-marker {
+  border-color: var(--primary-light);
+  background-color: var(--background-gray);
+}
+
+.dark-theme .timeline-item.initial .timeline-marker {
+  background-color: var(--primary);
+}
+
+.dark-theme .timeline-header {
+  border-bottom-color: var(--border-color);
+}
+
+.dark-theme .timeline-header h4 {
+  color: var(--primary-light);
+}
+
+.dark-theme .timeline-date {
+  color: var(--text-light);
+}
+
+.dark-theme .no-changes {
+  background-color: var(--background-gray);
+  color: var(--text-light);
+}
+
+.dark-theme .history-timeline::before {
+  background-color: var(--border-color);
+}
+
+.dark-theme .equipment-history.loading svg,
+.dark-theme .equipment-history.error svg {
+  color: var(--primary-light);
+}
+
+.dark-theme .equipment-history.error svg {
+  color: var(--danger);
+}
