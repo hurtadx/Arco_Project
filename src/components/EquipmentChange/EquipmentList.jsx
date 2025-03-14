@@ -4,11 +4,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getEquipment, exportToExcel, importFromExcel } from '../../data/equipmentStore';
 import DataImportExport from '../common/DataImportExport';
 import LockStatus from '../common/LockStatus';
+import EquipmentHistory from './EquipmentHistory';
 
 function EquipmentList() {
   const [equipment, setEquipment] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [isReadOnly, setIsReadOnly] = useState(false);
+  const [selectedEquipmentId, setSelectedEquipmentId] = useState(null);
+  const [showHistoryModal, setShowHistoryModal] = useState(false);
   
   useEffect(() => {
     
@@ -102,15 +105,16 @@ function EquipmentList() {
               <td>{eq.initialOwner}</td>
               <td>{eq.purchaseDate ? new Date(eq.purchaseDate).toLocaleDateString() : 'N/A'}</td>
               <td className="actions">
-                <button className="action-btn view-btn" title="Ver detalles">
-                  <FontAwesomeIcon icon={['fas', 'search']} />
-                </button>
+               
                 <button 
-                  className="action-btn edit-btn" 
-                  title="Editar"
-                  disabled={isReadOnly}
+                  className="action-btn history-btn" 
+                  title="Ver historial"
+                  onClick={() => {
+                    setSelectedEquipmentId(eq.id);
+                    setShowHistoryModal(true);
+                  }}
                 >
-                  <FontAwesomeIcon icon={['fas', 'pencil-alt']} />
+                  <FontAwesomeIcon icon="history" />
                 </button>
               </td>
             </tr>
@@ -125,6 +129,17 @@ function EquipmentList() {
           <button>2</button>
           <button>3</button>
           <button><FontAwesomeIcon icon={['fas', 'chevron-right']} /></button>
+        </div>
+      )}
+
+      {showHistoryModal && (
+        <div className="modal-overlay">
+          <div className="modal-container">
+            <EquipmentHistory 
+              equipmentId={selectedEquipmentId} 
+              onClose={() => setShowHistoryModal(false)} 
+            />
+          </div>
         </div>
       )}
     </div>
