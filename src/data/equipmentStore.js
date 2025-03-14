@@ -67,13 +67,12 @@ const saveToExcel = async () => {
   }
 };
 
+
 export const addEquipment = async (equipData) => {
-  
   await checkReadOnlyStatus();
   if (isReadOnly) {
     throw new Error('La aplicación está en modo solo lectura. No se pueden realizar cambios.');
   }
-  
   
   if (equipment.length === 0) {
     await loadFromExcel();
@@ -82,15 +81,13 @@ export const addEquipment = async (equipData) => {
   const newEquipment = {
     id: Date.now().toString(),
     ...equipData,
+    initialOwner: equipData.currentOwner, 
     createdAt: new Date().toISOString()
   };
   
   equipment.push(newEquipment);
-  
-  
   await saveToExcel();
   
-  console.log('Nuevo equipo registrado:', newEquipment);
   return newEquipment;
 };
 
@@ -102,12 +99,13 @@ export const getEquipment = async () => {
   return [...equipment];
 };
 
-export const getEquipmentById = async (id) => {
-  
+
+export const getEquipmentById = async (equipmentId) => {
   if (equipment.length === 0) {
     await loadFromExcel();
   }
-  return equipment.find(eq => eq.id === id);
+  
+  return equipment.find(eq => eq.id === equipmentId);
 };
 
 export const updateEquipment = async (id, updates) => {
