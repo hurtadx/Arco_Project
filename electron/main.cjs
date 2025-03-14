@@ -9,8 +9,6 @@ const { initialize } = require('@electron/remote/main');
 const { fileURLToPath } = require('url');
 const { dirname } = require('path');
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
 initialize();
 
@@ -21,7 +19,7 @@ function createWindow() {
     width: 1200,
     height: 800,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
+      preload: path.join(__dirname, 'preload.cjs'),
       contextIsolation: true,
       nodeIntegration: false,
       sandbox: false 
