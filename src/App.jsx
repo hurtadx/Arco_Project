@@ -21,7 +21,7 @@ import {
   exportToExcel as exportEquipmentChanges 
 } from './data/equipmentChangesStore';
 import { initErrorHandler } from './utils/errorHandler';
-
+import EquipmentHistory from './components/EquipmentChange/EquipmentHistory';
 
 initErrorHandler();
 
