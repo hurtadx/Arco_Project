@@ -15,7 +15,7 @@ const EquipmentChangeForm = () => {
     newOwner: '',
     reason: '',
     fromDate: new Date().toISOString().split('T')[0],
-    toDate: ''
+    toDate: 'Presente' // Por defecto "Presente" para el propietario actual
   });
   
   const [successMessage, setSuccessMessage] = useState('');
@@ -49,52 +49,62 @@ const EquipmentChangeForm = () => {
     'Otro'
   ];
   
-  const handleChange = (e) => {
+  const handleChange = async (e) => {
     const { name, value } = e.target;
     
+    // Si se selecciona un equipo, cargar su propietario actual
     if (name === 'equipmentId' && value) {
-      const found = equipment.find(eq => eq.id === value);
-      setSelectedEquipment(found);
-      
-      
-      setFormData(prevData => ({
-        ...prevData,
-        [name]: value,
-        previousOwner: found ? found.initialOwner : ''
-      }));
+      try {
+        const selectedEq = equipment.find(eq => eq.id === value);
+        if (selectedEq) {
+          setSelectedEquipment(selectedEq);
+          setFormData(prev => ({
+            ...prev,
+            previousOwner: selectedEq.currentOwner || selectedEq.initialOwner || '',
+            equipmentId: value
+          }));
+        }
+      } catch (error) {
+        console.error('Error al cargar datos del equipo:', error);
+      }
     } else {
-      setFormData({
-        ...formData,
-        [name]: value
-      });
+      setFormData(prev => ({ ...prev, [name]: value }));
     }
   };
   
   const handleSubmit = (e) => {
     e.preventDefault();
     
+    // Crear objeto de cambio completo
+    const changeData = {
+      ...formData,
+      // Asegurar que toDate sea "Presente" si está vacío
+      toDate: formData.toDate || 'Presente'
+    };
     
-    const changeData = addEquipmentChange(formData);
-    
-    
-    const equipName = selectedEquipment ? selectedEquipment.model : 'Equipo';
-    setSuccessMessage(`Cambio de "${equipName}" registrado correctamente`);
-    
-    
-    setTimeout(() => {
-      setSuccessMessage('');
-    }, 3000);
-    
-    
-    setFormData({
-      equipmentId: '',
-      previousOwner: '',
-      newOwner: '',
-      reason: '',
-      fromDate: new Date().toISOString().split('T')[0],
-      toDate: ''
-    });
-    setSelectedEquipment(null);
+    addEquipmentChange(changeData)
+      .then(() => {
+        const equipName = selectedEquipment ? selectedEquipment.model : 'Equipo';
+        setSuccessMessage(`Cambio de "${equipName}" registrado correctamente`);
+        
+        setTimeout(() => {
+          setSuccessMessage('');
+        }, 3000);
+        
+        // Resetear formulario
+        setFormData({
+          equipmentId: '',
+          previousOwner: '',
+          newOwner: '',
+          reason: '',
+          fromDate: new Date().toISOString().split('T')[0],
+          toDate: 'Presente'
+        });
+        setSelectedEquipment(null);
+      })
+      .catch(error => {
+        alert(`Error al registrar cambio: ${error.message}`);
+      });
   };
   
   return (
