@@ -183,7 +183,6 @@
   box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
 }
 
-/* Animaciones mejoradas */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -204,7 +203,6 @@ h2 {
   color: #333;
 }
 
-/* Badge animado para alertas y notificaciones */
 .badge {
   display: inline-flex;
   align-items: center;
@@ -230,7 +228,6 @@ h2 {
   color: var(--success);
 }
 
-/* Contenedor de dos columnas para formularios */
 .two-columns {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -241,4 +238,50 @@ h2 {
   .two-columns {
     grid-template-columns: 1fr;
   }
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background-color, #f1f1f1);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary, #3a5a99);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-dark, #2a4a89);
+}
+
+body.dark-mode::-webkit-scrollbar-track {
+  background: #333;
+}
+
+body.dark-mode::-webkit-scrollbar-thumb {
+  background: #555;
+}
+
+body.dark-mode::-webkit-scrollbar-thumb:hover {
+  background: #777;
+}
+
+
+body.dark-mode .react-datepicker__input-container .calendar-icon,
+body.dark-mode .react-datepicker-wrapper .calendar-icon,
+body.dark-mode input[type="date"] + .calendar-icon,
+body.dark-mode .date-picker-field .calendar-icon {
+  color: #ffffff !important;
+}
+
+
+body.dark-mode button:has(.calendar-icon),
+body.dark-mode span:has(.calendar-icon),
+body.dark-mode div:has(.calendar-icon) > .calendar-icon {
+  color: #ffffff !important;
 }

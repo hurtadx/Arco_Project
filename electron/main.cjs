@@ -19,8 +19,8 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
-    frame: false,
-    autoHideMenuBar: true,
+    frame: true, 
+    autoHideMenuBar: true, 
     webPreferences: {
       preload: path.join(__dirname, 'preload.cjs'),
       contextIsolation: true,
@@ -28,13 +28,11 @@ function createWindow() {
       sandbox: false 
     }
   });
-
   
   mainWindow.setMenu(null);
   
   enable(mainWindow.webContents);
 
-  
   const isDev = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === undefined;
   const startUrl = isDev 
     ? 'http://localhost:5173' 
@@ -63,8 +61,7 @@ function createWindow() {
 
   mainWindow.loadFile(indexPath);  
   
-  
-  mainWindow.webContents.openDevTools();
+
 
   mainWindow.on('closed', () => {
     mainWindow = null;
