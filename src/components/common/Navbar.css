@@ -123,7 +123,6 @@
   }
 }
 
-/* Agregar esto después de los estilos existentes */
 .navbar-brand {
   display: flex;
   align-items: center;
@@ -133,4 +132,22 @@
   display: flex;
   align-items: center;
   gap: 1rem;
+}
+
+
+.theme-toggle-button {
+  color: #666;
+}
+
+body.dark-mode .theme-toggle-button {
+  color: #ffffff !important;
+}
+
+
+.navbar .icon {
+  transition: color 0.3s ease;
+}
+
+body.dark-mode .navbar .icon {
+  color: #ffffff;
 }

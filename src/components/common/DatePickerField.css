@@ -199,3 +199,19 @@
   background: var(--primary-light);
   border-radius: 10px;
 }
+
+.date-picker-container .icon {
+  color: #666;
+}
+
+body.dark-mode .date-picker-container .icon {
+  color: #ffffff !important;
+}
+
+.date-button .icon {
+  color: inherit !important;
+}
+
+body.dark-mode .date-button .icon {
+  color: #ffffff !important;
+}
