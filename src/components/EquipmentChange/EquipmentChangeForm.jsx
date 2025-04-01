@@ -15,7 +15,7 @@ const EquipmentChangeForm = () => {
     newOwner: '',
     reason: '',
     fromDate: new Date().toISOString().split('T')[0],
-    toDate: 'Presente' // Por defecto "Presente" para el propietario actual
+    toDate: 'Presente' 
   });
   
   const [successMessage, setSuccessMessage] = useState('');
@@ -52,7 +52,7 @@ const EquipmentChangeForm = () => {
   const handleChange = async (e) => {
     const { name, value } = e.target;
     
-    // Si se selecciona un equipo, cargar su propietario actual
+    
     if (name === 'equipmentId' && value) {
       try {
         const selectedEq = equipment.find(eq => eq.id === value);
@@ -75,10 +75,10 @@ const EquipmentChangeForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    // Crear objeto de cambio completo
+  
     const changeData = {
       ...formData,
-      // Asegurar que toDate sea "Presente" si está vacío
+      
       toDate: formData.toDate || 'Presente'
     };
     
@@ -91,7 +91,7 @@ const EquipmentChangeForm = () => {
           setSuccessMessage('');
         }, 3000);
         
-        // Resetear formulario
+        
         setFormData({
           equipmentId: '',
           previousOwner: '',
@@ -139,7 +139,7 @@ const EquipmentChangeForm = () => {
             <option value="">Seleccione un equipo</option>
             {Array.isArray(equipment) ? equipment.map(eq => (
               <option key={eq.id} value={eq.id}>
-                {eq.model} - {eq.inventoryNumber || 'Sin número de inventario'}
+                {eq.model}{eq.inventoryNumber ? ` - ${eq.inventoryNumber}` : ''}
               </option>
             )) : <option value="">No hay equipos disponibles</option>}
           </select>
