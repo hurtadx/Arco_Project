@@ -55,7 +55,7 @@ const saveToExcel = async () => {
       const result = await window.electron.invoke('save-excel-data', {
         fileName: 'equipos.xlsx',
         sheet: 'Equipos',
-        data: equipment
+        data: equipment 
       });
       
       return result.success;
@@ -68,7 +68,7 @@ const saveToExcel = async () => {
 };
 
 
-export const addEquipment = async (equipData) => {
+export const addEquipment = async (equipmentData) => {
   await checkReadOnlyStatus();
   if (isReadOnly) {
     throw new Error('La aplicación está en modo solo lectura. No se pueden realizar cambios.');
@@ -78,15 +78,21 @@ export const addEquipment = async (equipData) => {
     await loadFromExcel();
   }
   
+  
   const newEquipment = {
     id: Date.now().toString(),
-    ...equipData,
-    initialOwner: equipData.currentOwner, 
-    createdAt: new Date().toISOString()
+    model: equipmentData.model,
+    initialOwner: equipmentData.initialOwner, 
+    purchaseDate: equipmentData.purchaseDate,
+    currentOwner: equipmentData.initialOwner, 
+    timestamp: new Date().toISOString()
   };
   
   equipment.push(newEquipment);
-  await saveToExcel();
+  
+  
+  const saved = await saveToExcel();
+  console.log('Nuevo equipo registrado:', newEquipment, 'Guardado exitoso:', saved);
   
   return newEquipment;
 };
