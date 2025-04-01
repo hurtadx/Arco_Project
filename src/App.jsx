@@ -12,6 +12,7 @@ import EquipmentChangeList from './components/EquipmentChange/EquipmentList';
 import AnimatedContainer from './components/common/AnimatedContainer';
 import LockStatus from './components/common/LockStatus';
 import StatusBar from './components/common/StatusBar';
+import Debug from './components/common/Debug';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
   exportToExcel as exportEquipment 
@@ -229,6 +230,7 @@ function App() {
       </main>
       
       <StatusBar />
+      <Debug />
     </div>
   );
 }

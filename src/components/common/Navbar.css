@@ -34,7 +34,7 @@
 }
 
 .navbar-title:after {
-  content: 'v1.0';
+  content: 'v1.1';
   position: absolute;
   top: 0;
   right: -25px;

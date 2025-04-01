@@ -9,16 +9,16 @@ import {
   faSun, faMoon, faCheckCircle, faExclamationCircle,
   faExclamationTriangle, faInfoCircle, faTimes,
   faSpinner, faLock, faLockOpen,
-  faDatabase, faSync,  
+  faDatabase, faSync, faStickyNote, faFlag,
   faExchangeAlt, faStar, faHistory,
   faTint, faPrint, faChartLine, faFileAlt, faClock,
-  faClipboard, faEdit
+  faClipboard, faEdit, faMapMarkerAlt
 } from '@fortawesome/free-solid-svg-icons';
 
 
 import { 
   faBell, faQuestionCircle, 
-  
+  faStickyNote as farStickyNote,
   faClipboard as farClipboard
 } from '@fortawesome/free-regular-svg-icons';
 
@@ -31,10 +31,10 @@ library.add(
   faArrowRight, faSave, faUndo, faRedo,
   faSun, faMoon, faCheckCircle, faExclamationCircle,
   faExclamationTriangle, faInfoCircle, faTimes,
-  faSpinner, faLock, faLockOpen,
-  faDatabase, faSync,
+  faSpinner, faLock, faLockOpen, faFlag, 
+  faDatabase, faSync, faStickyNote,
   faBell, faQuestionCircle,
   faExchangeAlt, faStar, faHistory,
   faTint, faPrint, faChartLine, faFileAlt, faClock,
-  faClipboard, farClipboard, faEdit
+  faClipboard, farClipboard, farStickyNote, faEdit, faMapMarkerAlt
 );
