@@ -6,6 +6,7 @@ import DatePickerField from '../common/DatePickerField';
 
 function ObjectChangeForm() {
   const [formData, setFormData] = useState({
+    company: '',         
     location: '',
     personName: '',
     objectType: '',
@@ -16,8 +17,22 @@ function ObjectChangeForm() {
   const [successMessage, setSuccessMessage] = useState('');
   const [showOtherField, setShowOtherField] = useState(false);
   
-  const locations = ['Administración', 'Extrusión', 'Producción', 'Logística', 'Otro'];
+  
+  const locationsArc = ['Administración', 'Ventas', 'Fijacion', 'Calidad', 'Herramientas','Empaque','Almacen','Pernos','Trefilacion','Mantenimiento'];
+  const locationsExt = ['Empaque', 'Prensa', 'Espectometro', 'Extrusion', 'Despachos', 'Rimax', 'Estañado','Matriceria'];
   const objectTypes = ['Teléfono', 'Mousepad', 'Pantalla', 'Garra de Pantalla', 'Teclado', 'Mouse', 'Otro'];
+  
+  
+  const getLocationsForCompany = () => {
+    switch (formData.company) {
+      case 'Arcoli':
+        return locationsArc;
+      case 'Extecal':
+        return locationsExt;
+      default:
+        return [];
+    }
+  };
   
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,15 +43,20 @@ function ObjectChangeForm() {
       setShowOtherField(false);
     }
     
+    
+    const updates = { [name]: value };
+    if (name === 'company') {
+      updates.location = '';
+    }
+    
     setFormData({
       ...formData,
-      [name]: value
+      ...updates
     });
   };
   
   const handleSubmit = (e) => {
     e.preventDefault();
-    
     
     const changeData = {
       ...formData,
@@ -44,19 +64,16 @@ function ObjectChangeForm() {
       timestamp: new Date().toISOString()
     };
     
-    
     addObjectChange(changeData);
     
-    
     setSuccessMessage(`¡Cambio registrado correctamente!`);
-    
     
     setTimeout(() => {
       setSuccessMessage('');
     }, 3000);
     
-    
     setFormData({
+      company: '',       
       location: '',
       personName: '',
       objectType: '',
@@ -65,6 +82,9 @@ function ObjectChangeForm() {
     });
     setShowOtherField(false);
   };
+  
+  
+  const locations = getLocationsForCompany();
   
   return (
     <div className="object-change-form form-fade-in">
@@ -81,9 +101,29 @@ function ObjectChangeForm() {
       )}
       
       <form onSubmit={handleSubmit} className="floating-form">
+        {/* Nuevo campo para seleccionar la empresa */}
+        <div className="form-group">
+          <label htmlFor="company">
+            <FontAwesomeIcon icon={['fas', 'building']} className="form-field-icon" />
+            Empresa:
+          </label>
+          <select 
+            id="company" 
+            name="company" 
+            value={formData.company} 
+            onChange={handleChange}
+            className="enhanced-select"
+            required
+          >
+            <option value="">Seleccione una empresa</option>
+            <option value="Arcoli">Arcoli</option>
+            <option value="Extecal">Extecal</option>
+          </select>
+        </div>
+        
         <div className="form-group">
           <label htmlFor="location">
-            <FontAwesomeIcon icon={['fas', 'building']} className="form-field-icon" />
+            <FontAwesomeIcon icon={['fas', 'map-marker-alt']} className="form-field-icon" />
             Lugar:
           </label>
           <select 
@@ -93,8 +133,11 @@ function ObjectChangeForm() {
             onChange={handleChange}
             className="enhanced-select"
             required
+            disabled={!formData.company}
           >
-            <option value="">Seleccione un lugar</option>
+            <option value="">
+              {formData.company ? 'Seleccione un lugar' : 'Primero seleccione una empresa'}
+            </option>
             {locations.map(loc => (
               <option key={loc} value={loc}>{loc}</option>
             ))}
