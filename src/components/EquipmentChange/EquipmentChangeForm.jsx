@@ -2,25 +2,25 @@ import React, { useState, useEffect } from 'react';
 import './EquipmentChangeForm.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getEquipment } from '../../data/equipmentStore';
-import { addEquipmentChange } from '../../data/equipmentChangesStore';
+import { addEquipmentChange, getChangesByEquipmentId } from '../../data/equipmentChangesStore';
 import DatePickerField from '../common/DatePickerField';
 import AnimatedContainer from '../common/AnimatedContainer';
 
 const EquipmentChangeForm = () => {
   const [equipment, setEquipment] = useState([]);
-  
   const [formData, setFormData] = useState({
     equipmentId: '',
     previousOwner: '',
     newOwner: '',
     reason: '',
     fromDate: new Date().toISOString().split('T')[0],
-    toDate: 'Presente' // Por defecto "Presente" para el propietario actual
+    toDate: 'Presente' 
   });
   
   const [successMessage, setSuccessMessage] = useState('');
   const [selectedEquipment, setSelectedEquipment] = useState(null);
-  
+  const [minFromDate, setMinFromDate] = useState(null);
+  const [dateHelpText, setDateHelpText] = useState('');
   
   useEffect(() => {
     const loadEquipment = async () => {
@@ -52,16 +52,40 @@ const EquipmentChangeForm = () => {
   const handleChange = async (e) => {
     const { name, value } = e.target;
     
-    // Si se selecciona un equipo, cargar su propietario actual
     if (name === 'equipmentId' && value) {
       try {
         const selectedEq = equipment.find(eq => eq.id === value);
         if (selectedEq) {
           setSelectedEquipment(selectedEq);
+          
+          const changes = await getChangesByEquipmentId(value);
+          let latestChangeDate = null;
+          
+          if (changes && changes.length > 0) {
+            const sortedChanges = [...changes].sort(
+              (a, b) => new Date(b.fromDate) - new Date(a.fromDate)
+            );
+            
+            if (sortedChanges[0] && sortedChanges[0].fromDate) {
+              const lastDate = new Date(sortedChanges[0].fromDate);
+              lastDate.setDate(lastDate.getDate() + 1);
+              latestChangeDate = lastDate.toISOString().split('T')[0];
+              
+              setDateHelpText(`El último cambio fue registrado el ${new Date(sortedChanges[0].fromDate).toLocaleDateString()}. La fecha debe ser posterior.`);
+            }
+          } else {
+            latestChangeDate = selectedEq.purchaseDate;
+            setDateHelpText('');
+          }
+          
+          setMinFromDate(latestChangeDate);
+          
           setFormData(prev => ({
             ...prev,
             previousOwner: selectedEq.currentOwner || selectedEq.initialOwner || '',
-            equipmentId: value
+            equipmentId: value,
+            fromDate: latestChangeDate && prev.fromDate < latestChangeDate ? 
+              latestChangeDate : prev.fromDate
           }));
         }
       } catch (error) {
@@ -75,10 +99,8 @@ const EquipmentChangeForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    // Crear objeto de cambio completo
     const changeData = {
       ...formData,
-      // Asegurar que toDate sea "Presente" si está vacío
       toDate: formData.toDate || 'Presente'
     };
     
@@ -91,7 +113,6 @@ const EquipmentChangeForm = () => {
           setSuccessMessage('');
         }, 3000);
         
-        // Resetear formulario
         setFormData({
           equipmentId: '',
           previousOwner: '',
@@ -139,7 +160,7 @@ const EquipmentChangeForm = () => {
             <option value="">Seleccione un equipo</option>
             {Array.isArray(equipment) ? equipment.map(eq => (
               <option key={eq.id} value={eq.id}>
-                {eq.model} - {eq.inventoryNumber || 'Sin número de inventario'}
+                {eq.model}{eq.inventoryNumber ? ` - ${eq.inventoryNumber}` : ''}
               </option>
             )) : <option value="">No hay equipos disponibles</option>}
           </select>
@@ -208,6 +229,8 @@ const EquipmentChangeForm = () => {
               onChange={handleChange}
               required={true}
               maxDate={new Date()}
+              minDate={minFromDate ? new Date(minFromDate) : null}
+              helpText={dateHelpText}
             />
           </div>
           

@@ -3,7 +3,7 @@ import './Navbar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ThemeToggle from './ThemeToggle';
 
-function Navbar({ activeTab, setActiveTab }) {
+function Navbar({ activeTab, setActiveTab, children }) {
   return (
     <nav className="navbar">
       <div className="navbar-brand">
@@ -35,9 +35,17 @@ function Navbar({ activeTab, setActiveTab }) {
           <FontAwesomeIcon icon={['fas', 'exchange']} className="nav-icon" />
           Cambio de Equipos
         </li>
+        <li 
+          className={activeTab === 'tonerManagement' ? 'active' : ''} 
+          onClick={() => setActiveTab('tonerManagement')}
+        >
+          <FontAwesomeIcon icon="tint" className="nav-icon" />
+          Gestión de Toners
+        </li>
       </ul>
       
       <div className="navbar-actions">
+        {children}
         <ThemeToggle />
       </div>
     </nav>

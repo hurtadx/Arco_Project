@@ -18,7 +18,8 @@ const DatePickerField = ({
   optional = false,
   allowFutureDates = false, 
   showYearDropdown = true,   
-  yearDropdownItemNumber = 30 
+  yearDropdownItemNumber = 30,
+  helpText 
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -98,6 +99,13 @@ const DatePickerField = ({
           <FontAwesomeIcon icon={['fas', 'calendar-alt']} />
         </button>
       </div>
+
+      {helpText && (
+        <div className="field-help-text">
+          <FontAwesomeIcon icon="info-circle" className="help-icon" />
+          {helpText}
+        </div>
+      )}
     </div>
   );
 };

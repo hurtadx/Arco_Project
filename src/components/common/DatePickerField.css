@@ -200,6 +200,19 @@
   border-radius: 10px;
 }
 
+
+.field-help-text {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.help-icon {
+  color: var(--accent);
+
 .date-picker-container .icon {
   color: #666;
 }
@@ -214,4 +227,5 @@ body.dark-mode .date-picker-container .icon {
 
 body.dark-mode .date-button .icon {
   color: #ffffff !important;
+
 }

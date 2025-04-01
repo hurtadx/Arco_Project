@@ -65,9 +65,11 @@
 .content {
   flex: 1;
   padding: 2rem;
+  padding-bottom: 50px; 
   max-width: 1400px;
   margin: 0 auto;
   width: 100%;
+  min-height: calc(100vh - 60px); 
 }
 
 .object-changes-container,
@@ -183,6 +185,7 @@
   box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
 }
 
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -202,6 +205,7 @@ h2 {
   margin-bottom: 20px;
   color: #333;
 }
+
 
 .badge {
   display: inline-flex;
@@ -228,6 +232,7 @@ h2 {
   color: var(--success);
 }
 
+/* Contenedor de dos columnas para formularios */
 .two-columns {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -238,6 +243,24 @@ h2 {
   .two-columns {
     grid-template-columns: 1fr;
   }
+}
+
+
+.status-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background-color: var(--background-gray, #f5f5f5);
+  border-top: 1px solid var(--border-color, #eee);
+  font-size: 0.85rem;
+  color: var(--text-secondary, #666);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: 40px; 
 }
 
 ::-webkit-scrollbar {

@@ -4,101 +4,101 @@
 ARCO App es una aplicación de escritorio desarrollada con Electron y React que permite gestionar los cambios de equipamiento informático en una organización. La aplicación facilita el registro, seguimiento y exportación de datos relacionados con movimientos y cambios de equipos.
 
 ## Características Principales
-- **Gestión de Equipamiento**: Registro y seguimiento de equipos informáticos
-- **Cambios de Equipamiento**: Documentación de movimientos, actualizaciones y retiros
-- **Sistema de Bloqueo**: Mecanismo para evitar conflictos en edición simultánea
-- **Almacenamiento en Excel**: Persistencia de datos en archivos Excel compartidos
-- **Modo Web y Escritorio**: Funciona tanto en navegador (modo limitado) como en aplicación de escritorio
+* **Gestión de Equipamiento**: Registro y seguimiento de equipos informáticos
+* **Cambios de Equipamiento**: Documentación de movimientos, actualizaciones y retiros
+* **Almacenamiento en Excel**: Persistencia de datos en archivos Excel
+* **Interfaz Adaptable**: Incluye modo claro y oscuro para mayor comodidad visual
+* **Modo Escritorio**: Aplicación nativa para Windows con todas las funcionalidades
 
 ## Requisitos del Sistema
-- Node.js 18 o superior
-- Windows 10/11 (recomendado)
-- 4GB RAM mínimo
-- Acceso a carpeta compartida (para modo multi-usuario)
+* Windows 10/11
+* 4GB RAM mínimo
+* 100MB de espacio en disco
 
 ## Instalación
 
-### Desarrollo
+### Para Usuarios Finales
+1. Ejecute el archivo de instalación `arco-app-setup.exe`
+2. Siga las instrucciones del instalador
+3. La aplicación se iniciará automáticamente después de la instalación
+
+### Para Desarrolladores
 1. Clonar el repositorio:
 ```bash
 git clone https://github.com/tu-usuario/arco-app.git
 ```
-
 2. Instalar dependencias:
 ```bash
 npm install
 ```
-
 3. Iniciar en modo desarrollo:
 ```bash
 npm start
 ```
-
-### Producción
-1. Construir la aplicación:
+4. Construir la aplicación:
 ```bash
 npm run build
+npm run electron:build
 ```
-
 El instalador se generará en la carpeta `dist`.
-
-## Configuración
-
-### Directorio de Datos Compartidos
-Por defecto, la aplicación utiliza la ruta `ArcoData` como directorio compartido para los datos. Si esta ruta no está disponible, la aplicación utilizará una ubicación local en `%USERPROFILE%\Documents\ARCO_Datos`.
-
-Para modificar la ubicación predeterminada, edita la variable `dataDir` en el archivo `main.cjs`.
-
-### Sistema de Bloqueo
-El sistema de bloqueo tiene un timeout de 5 minutos para prevenir bloqueos huérfanos. Este valor puede modificarse editando la constante `LOCK_TIMEOUT` en el archivo `main.cjs`.
 
 ## Uso
 
 ### Módulos Principales
-- **Cambios de Equipamiento**: Permite registrar movimientos, actualizaciones y retiros de equipos
-- **Cambios de Objetos**: Gestión de cambios en objetos del sistema informático
-- **Equipos**: Inventario y gestión de equipos informáticos
-- **Reportes**: Generación de informes y exportación de datos
+* **Cambios de Equipamiento**: Permite registrar movimientos, actualizaciones y retiros de equipos
+* **Equipos**: Inventario y gestión de equipos informáticos
+* **Configuración**: Opciones para personalizar la aplicación, incluyendo cambio de tema
 
-### Sistema de Bloqueo
-Para editar datos compartidos:
-
-1. Verifica si los archivos están bloqueados (indicador en la barra de estado)
-2. Si están bloqueados, puedes ver quién los está editando
-3. Si no están bloqueados, puedes adquirir el bloqueo haciendo clic en "Solicitar Edición"
-4. Al terminar, libera el bloqueo haciendo clic en "Liberar Edición"
+### Interfaz de Usuario
+* **Barra de Navegación**: Acceso rápido a todos los módulos
+* **Selector de Tema**: Cambie entre modo claro y oscuro según su preferencia
+* **Formularios Intuitivos**: Diseño simplificado para el registro eficiente de información
 
 ## Estructura del Proyecto
 ```
 arco-app/
 ├── src/                # Código fuente
 │   ├── components/     # Componentes React
-│   ├── services/       # Servicios y lógica de negocio
+│   ├── data/           # Gestión de datos y almacenamiento
 │   ├── utils/          # Utilidades
 │   ├── App.jsx         # Componente principal
-│   └── main.cjs        # Punto de entrada Electron
-├── public/             # Archivos estáticos
+│   └── main.jsx        # Punto de entrada React
+├── electron/           # Código Electron
+│   ├── main.cjs        # Punto de entrada Electron
+│   └── preload.cjs     # Script de precarga
 ├── dist/               # Distribución compilada
 └── package.json        # Dependencias y scripts
 ```
 
 ## Solución de Problemas
 
-### La aplicación no puede acceder a los datos compartidos
-- Verifica que la ruta `ArcoData` esté disponible y accesible
-- Confirma que tienes permisos de lectura y escritura en la carpeta
+### La aplicación muestra una pantalla en blanco
+* Reinicie la aplicación
+* Verifique que tenga permisos de administrador si es necesario
 
-### Error en el sistema de bloqueo
-1. Cierra todas las instancias de la aplicación
-2. Elimina manualmente el archivo `arco-lock.json` en la carpeta de datos
-3. Reinicia la aplicación
+### Problemas con la visualización de datos
+* Asegúrese de que los archivos Excel no estén abiertos en otras aplicaciones
+* Verifique que tenga permisos de escritura en la carpeta donde se almacenan los datos
 
-## Contribución
-1. Fork del repositorio
-2. Crea una rama para tu característica (`git checkout -b feature/amazing-feature`)
-3. Commit de tus cambios (`git commit -m 'Add amazing feature'`)
-4. Push a la rama (`git push origin feature/amazing-feature`)
-5. Abre un Pull Request
+### Errores al guardar información
+* Compruebe que dispone de espacio suficiente en disco
+* Verifique la conexión a la red si está utilizando una ubicación compartida
 
-## Licencia
-## No hay <3 CHAOOO
+## Tecnologías Utilizadas
+* React 18
+* Electron 25
+* Vite 6
+* Bootstrap 5 (personalizado)
+* SheetJS (para manipulación de Excel)
+
+## Mantenimiento y Actualizaciones
+Las actualizaciones de la aplicación se distribuirán mediante nuevos instaladores. Para actualizarla:
+1. Desinstale la versión anterior (opcional, pero recomendado)
+2. Ejecute el nuevo instalador
+3. Siga las instrucciones en pantalla
+
+## Contacto y Soporte
+Para reportar problemas Puedes abrir un Issue en github y con gusto lo intentare resolver
+
+
+Desarrollado por Andres Hurtado © 2025
