@@ -33,16 +33,19 @@ function createWindow() {
   
   enable(mainWindow.webContents);
 
-  const isDev = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === undefined;
-  const startUrl = isDev 
-    ? 'http://localhost:5173' 
-    : format({
-        pathname: path.join(__dirname, '..', 'dist', 'index.html'),
-        protocol: 'file:',
-        slashes: true
-      });
+  const isDev = process.env.NODE_ENV === 'development' || !app.isPackaged;
+
+  if (isDev) {
+    console.log('Running in development mode');
+    mainWindow.loadURL('http://localhost:5173');
+  } else {
+    console.log('Running in production mode');
+    const indexPath = path.join(__dirname, '..', 'dist', 'index.html');
+    console.log('Index path:', indexPath);
+    console.log('Path exists:', fs.existsSync(indexPath));
+    mainWindow.loadFile(indexPath);
+  }
   
-  console.log('Loading URL:', startUrl);
   console.log('Current directory:', __dirname);
   
   
@@ -53,15 +56,6 @@ function createWindow() {
   mainWindow.webContents.on('console-message', (event, level, message, line, sourceId) => {
     console.log('Console message:', message);
   });
-
-  const appPath = app.getAppPath();
-  const indexPath = path.join(appPath, 'dist', 'index.html');
-  console.log('App path:', appPath);
-  console.log('Index path:', indexPath);
-
-  mainWindow.loadFile(indexPath);  
-  
-
 
   mainWindow.on('closed', () => {
     mainWindow = null;

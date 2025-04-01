@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from 'uuid';
+import { generateId } from '../utils/idGenerator';
 
 let tonerChanges = [];
 let isReadOnly = false;
@@ -25,7 +25,7 @@ export const loadFromExcel = async () => {
       if (result.success && Array.isArray(result.data)) {
         tonerChanges = result.data.map(change => ({
           ...change,
-          id: change.id || uuidv4()
+          id: change.id || generateId()
         }));
         return tonerChanges;
       }
@@ -85,7 +85,7 @@ export const addTonerChange = async (changeData) => {
   }
   
   const newChange = {
-    id: uuidv4(),
+    id: generateId(),
     printerId: changeData.printerId,
     printerModel: changeData.printerModel,
     pageCount: changeData.pageCount,
