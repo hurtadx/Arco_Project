@@ -208,3 +208,16 @@
     margin-top: 0.25rem;
   }
 }
+
+.timeline-item.current .timeline-content {
+  border-left: 4px solid #27ae60;
+}
+
+.timeline-item.current .timeline-marker {
+  background-color: #27ae60;
+  color: white;
+}
+
+.timeline-item.current h4 {
+  color: #27ae60;
+}
