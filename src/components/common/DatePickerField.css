@@ -199,3 +199,16 @@
   background: var(--primary-light);
   border-radius: 10px;
 }
+
+.field-help-text {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.help-icon {
+  color: var(--accent);
+}
