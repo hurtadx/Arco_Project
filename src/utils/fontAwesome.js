@@ -11,8 +11,8 @@ import {
   faSpinner, faLock, faLockOpen,
   faDatabase, faSync,  
   faExchangeAlt, faStar, faHistory,
-  
-  faClipboard
+  faTint, faPrint, faChartLine, faFileAlt, faClock,
+  faClipboard, faEdit
 } from '@fortawesome/free-solid-svg-icons';
 
 
@@ -35,6 +35,6 @@ library.add(
   faDatabase, faSync,
   faBell, faQuestionCircle,
   faExchangeAlt, faStar, faHistory,
-  
-  faClipboard, farClipboard
+  faTint, faPrint, faChartLine, faFileAlt, faClock,
+  faClipboard, farClipboard, faEdit
 );
