@@ -36,18 +36,17 @@ const EquipmentHistory = ({ equipmentId, onClose }) => {
         }
         setEquipment(equipData);
         
-        
         const changeHistory = await getChangesByEquipmentId(equipmentId);
         
         
         const validChanges = Array.isArray(changeHistory) 
           ? changeHistory
             .filter(change => change.fromDate && !isNaN(new Date(change.fromDate).getTime()))
-            .sort((a, b) => new Date(b.fromDate) - new Date(a.fromDate))
+            .sort((a, b) => new Date(a.fromDate) - new Date(b.fromDate)) 
           : [];
         
         setChanges(validChanges);
-        console.log("Cambios validados cargados:", validChanges);
+        console.log("Cambios validados cargados en orden cronológico:", validChanges);
       } catch (err) {
         console.error('Error al cargar historial:', err);
         setError('No se pudo cargar el historial del equipo');
@@ -115,7 +114,7 @@ const EquipmentHistory = ({ equipmentId, onClose }) => {
         <div className="status-item">
           <span className="status-label">Propietario Actual:</span> 
           <span className="status-value current-owner">
-            {equipment.currentOwner || equipment.initialOwner || "Sin asignar"}
+            <strong>{equipment.currentOwner || equipment.initialOwner || "Sin asignar"}</strong>
           </span>
         </div>
         
@@ -123,7 +122,7 @@ const EquipmentHistory = ({ equipmentId, onClose }) => {
           <span className="status-label">Desde:</span>
           <span className="status-value">
             {changes && changes.length > 0 
-              ? formatDateSafe(changes[0].fromDate)
+              ? formatDateSafe(changes[changes.length-1].fromDate) 
               : formatDateSafe(equipment.purchaseDate)}
           </span>
         </div>
@@ -144,15 +143,16 @@ const EquipmentHistory = ({ equipmentId, onClose }) => {
             <div className="timeline-details">
               <p><strong>Propietario Inicial:</strong> {equipment.initialOwner || "No registrado"}</p>
               <p><strong>Periodo:</strong> {formatDateSafe(equipment.purchaseDate)} - 
-                {changes && changes.length > 0 ? formatDateSafe(changes[changes.length-1].fromDate) : "Presente"}
+                {changes && changes.length > 0 ? formatDateSafe(changes[0].fromDate) : "Presente"}
               </p>
             </div>
           </div>
         </div>
         
+        {/* Mostrar los cambios en orden cronológico */}
         {changes && changes.length > 0 ? changes.map((change, index) => {
           
-          const nextChange = changes[index - 1];
+          const nextChange = changes[index + 1]; 
           const endDate = nextChange ? formatDateSafe(nextChange.fromDate) : "Presente";
           
           return (
@@ -182,6 +182,30 @@ const EquipmentHistory = ({ equipmentId, onClose }) => {
             <p>Este equipo no tiene cambios registrados.</p>
             <p>Propietario desde adquisición: {equipment.initialOwner || "No registrado"}</p>
             <p>Desde: {formatDateSafe(equipment.purchaseDate)} - Presente</p>
+          </div>
+        )}
+
+       
+        {changes && changes.length > 0 && (
+          <div className="timeline-item current">
+            <div className="timeline-marker current">
+              <FontAwesomeIcon icon="user-check" />
+            </div>
+            <div className="timeline-content">
+              <div className="timeline-header">
+                <h4>Propietario Actual</h4>
+                <span className="timeline-date">
+                  Presente
+                </span>
+              </div>
+              <div className="timeline-details">
+                <p><strong>Propietario:</strong> {equipment.currentOwner || equipment.initialOwner || "Sin asignar"}</p>
+                <p><strong>Desde:</strong> {changes.length > 0 
+                  ? formatDateSafe(changes[changes.length-1].fromDate) 
+                  : formatDateSafe(equipment.purchaseDate)}
+                </p>
+              </div>
+            </div>
           </div>
         )}
       </div>

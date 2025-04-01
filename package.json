@@ -20,8 +20,11 @@
     "react": "^19.0.0",
     "react-datepicker": "^8.2.0",
     "react-dom": "^19.0.0",
+
+    "react-router-dom": "^7.4.1",
     "xlsx": "^0.18.5",
     "@electron/remote": "^2.0.0"
+
   },
   "devDependencies": {
     "@electron/remote": "^2.1.2",
