@@ -232,7 +232,7 @@ h2 {
   color: var(--success);
 }
 
-/* Contenedor de dos columnas para formularios */
+
 .two-columns {
   display: grid;
   grid-template-columns: 1fr 1fr;
