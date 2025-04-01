@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import { Routes, Route, NavLink, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Navbar from './components/common/Navbar';
 import ObjectChangeForm from './components/ObjectChange/ObjectChangeForm';
 import ObjectChangeList from './components/ObjectChange/ObjectChangeList';
@@ -22,16 +24,19 @@ import {
 } from './data/equipmentChangesStore';
 import { initErrorHandler } from './utils/errorHandler';
 import EquipmentHistory from './components/EquipmentChange/EquipmentHistory';
+import TonerManagementPage from './pages/TonerManagementPage';
 
 initErrorHandler();
 
 function App() {
   const [activeTab, setActiveTab] = useState('objectChanges');
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [theme, setTheme] = useState('light');
   const [isInitialized, setIsInitialized] = useState(false);
   const [isConnected, setIsConnected] = useState(true);
   
   useEffect(() => {
-    
     const checkConnection = async () => {
       if (window.electron) {
         try {
@@ -51,32 +56,15 @@ function App() {
     
     checkConnection();
     
-    
     const interval = setInterval(checkConnection, 30000); 
     
     return () => clearInterval(interval);
   }, []);
   
-  
-  useEffect(() => {
-    const handleNavigate = (e) => {
-      if (e.detail && e.detail.tab) {
-        setActiveTab(e.detail.tab);
-      }
-    };
-    
-    window.addEventListener('navigate', handleNavigate);
-    
-    return () => {
-      window.removeEventListener('navigate', handleNavigate);
-    };
-  }, [activeTab]);
-
   useEffect(() => {
     const testExcelAccess = async () => {
       if (window.electron) {
         try {
-          
           const testData = [{ id: 'test1', value: 'Test Data ' + new Date().toISOString() }];
           const result = await window.electron.invoke('save-excel-data', {
             fileName: 'test.xlsx',
@@ -85,7 +73,6 @@ function App() {
           });
           
           console.log('Excel write test result:', result);
-          
           
           const readResult = await window.electron.invoke('load-excel-data', {
             fileName: 'test.xlsx',
@@ -104,6 +91,21 @@ function App() {
     }
   }, [isConnected]);
 
+  useEffect(() => {
+    if (location.pathname === '/toner-management') {
+      setActiveTab('tonerManagement');
+    }
+  }, [location.pathname]);
+  
+  const handleTabChange = (tabName) => {
+    setActiveTab(tabName);
+    if (tabName === 'tonerManagement') {
+      navigate('/toner-management');
+    } else {
+      navigate('/');
+    }
+  };
+
   const handleExport = (type) => {
     console.log("Export requested for:", type);
     try {
@@ -120,7 +122,6 @@ function App() {
     }
   };
 
-  
   if (!isInitialized) {
     return <div style={{
       display: 'flex',
@@ -130,7 +131,6 @@ function App() {
       color: '#3a5a99'
     }}>Cargando ARCO...</div>;
   }
-  
   
   if (!isConnected) {
     return <div style={{
@@ -165,62 +165,67 @@ function App() {
   }
 
   return (
-    <div className="app-container">
-      <Navbar activeTab={activeTab} setActiveTab={setActiveTab}>
-        <LockStatus />
-      </Navbar>
+    <div className={`app ${theme}`}>
+      <Navbar activeTab={activeTab} setActiveTab={handleTabChange} />
       
-      <main className="content">
-        {activeTab === 'objectChanges' && (
-          <AnimatedContainer animation="slide-up">
-            <div className="object-changes-container">
-              <div className="section-header">
-                <h2 className="section-title">
-                  <FontAwesomeIcon icon={['fas', 'box']} />
-                  Registro de Cambio de Objetos
-                </h2>
-              </div>
+       <main className="content">
+        <Routes>
+          <Route path="/toner-management" element={<TonerManagementPage />} />
+          <Route path="/" element={
+            <>
+              {activeTab === 'objectChanges' && (
+                <AnimatedContainer animation="slide-up">
+                  <div className="object-changes-container">
+                    <div className="section-header">
+                      <h2 className="section-title">
+                        <FontAwesomeIcon icon={['fas', 'box']} />
+                        Registro de Cambio de Objetos
+                      </h2>
+                    </div>
+                    
+                    <AnimatedContainer animation="slide-in-right" delay={0.1}>
+                      <ObjectChangeForm />
+                    </AnimatedContainer>
+                    
+                    <AnimatedContainer animation="slide-in-right" delay={0.2}>
+                      <ObjectChangeList />
+                    </AnimatedContainer>
+                  </div>
+                </AnimatedContainer>
+              )}
               
-              <AnimatedContainer animation="slide-in-right" delay={0.1}>
-                <ObjectChangeForm />
-              </AnimatedContainer>
+              {activeTab === 'equipmentRegistry' && (
+                <AnimatedContainer animation="slide-up">
+                  <div className="equipment-registry-container fade-in">
+                    <div className="section-header">
+                      <h2 className="section-title">
+                        <FontAwesomeIcon icon={['fas', 'laptop']} />
+                        Registro de Equipos
+                      </h2>
+                    </div>
+                    <EquipmentForm />
+                    <EquipmentList />
+                  </div>
+                </AnimatedContainer>
+              )}
               
-              <AnimatedContainer animation="slide-in-right" delay={0.2}>
-                <ObjectChangeList />
-              </AnimatedContainer>
-            </div>
-          </AnimatedContainer>
-        )}
-        
-        {activeTab === 'equipmentRegistry' && (
-          <AnimatedContainer animation="slide-up">
-            <div className="equipment-registry-container fade-in">
-              <div className="section-header">
-                <h2 className="section-title">
-                  <FontAwesomeIcon icon={['fas', 'laptop']} />
-                  Registro de Equipos
-                </h2>
-              </div>
-              <EquipmentForm />
-              <EquipmentList />
-            </div>
-          </AnimatedContainer>
-        )}
-        
-        {activeTab === 'equipmentChanges' && (
-          <AnimatedContainer animation="slide-up">
-            <div className="equipment-changes-container fade-in">
-              <div className="section-header">
-                <h2 className="section-title">
-                  <FontAwesomeIcon icon={['fas', 'exchange']} />
-                  Registro de Cambios de Equipos
-                </h2>
-              </div>
-              <EquipmentChangeForm />
-              <EquipmentChangeList />
-            </div>
-          </AnimatedContainer>
-        )}
+              {activeTab === 'equipmentChanges' && (
+                <AnimatedContainer animation="slide-up">
+                  <div className="equipment-changes-container fade-in">
+                    <div className="section-header">
+                      <h2 className="section-title">
+                        <FontAwesomeIcon icon={['fas', 'exchange']} />
+                        Registro de Cambios de Equipos
+                      </h2>
+                    </div>
+                    <EquipmentChangeForm />
+                    <EquipmentChangeList />
+                  </div>
+                </AnimatedContainer>
+              )}
+            </>
+          } />
+        </Routes>
       </main>
       
       <StatusBar />
