@@ -4,6 +4,7 @@ const fs = require('fs');
 const os = require('os');
 const XLSX = require('xlsx');
 const { enable } = require('@electron/remote/main');
+const { format } = require('url'); 
 
 const { initialize } = require('@electron/remote/main');
 const { fileURLToPath } = require('url');
@@ -18,6 +19,8 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
+    frame: false,
+    autoHideMenuBar: true,
     webPreferences: {
       preload: path.join(__dirname, 'preload.cjs'),
       contextIsolation: true,
@@ -26,24 +29,42 @@ function createWindow() {
     }
   });
 
+  
+  mainWindow.setMenu(null);
+  
   enable(mainWindow.webContents);
 
+  
   const isDev = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === undefined;
   const startUrl = isDev 
     ? 'http://localhost:5173' 
-    : formatUrl({
-        pathname: path.join(__dirname, '../dist/index.html'),
+    : format({
+        pathname: path.join(__dirname, '..', 'dist', 'index.html'),
         protocol: 'file:',
         slashes: true
       });
   
   console.log('Loading URL:', startUrl);
+  console.log('Current directory:', __dirname);
   
-  mainWindow.loadURL(startUrl);
   
-  if (isDev) {
-    mainWindow.webContents.openDevTools();
-  }
+  mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription, validatedURL) => {
+    console.error('Failed to load:', errorCode, errorDescription, validatedURL);
+  });
+
+  mainWindow.webContents.on('console-message', (event, level, message, line, sourceId) => {
+    console.log('Console message:', message);
+  });
+
+  const appPath = app.getAppPath();
+  const indexPath = path.join(appPath, 'dist', 'index.html');
+  console.log('App path:', appPath);
+  console.log('Index path:', indexPath);
+
+  mainWindow.loadFile(indexPath);  
+  
+  
+  mainWindow.webContents.openDevTools();
 
   mainWindow.on('closed', () => {
     mainWindow = null;

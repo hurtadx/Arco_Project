@@ -6,6 +6,7 @@ module.exports = {
   appId: "com.arcoapp.electron",
   files: [
     "dist/**/*",
+    "node_modules/@electron/remote/**/*",
     "electron/**/*"
   ],
   directories: {
