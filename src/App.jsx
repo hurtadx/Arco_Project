@@ -2,16 +2,16 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import { Routes, Route, NavLink, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import Navbar from './components/common/Navbar';
-import ObjectChangeForm from './components/ObjectChange/ObjectChangeForm';
-import ObjectChangeList from './components/ObjectChange/ObjectChangeList';
-import EquipmentForm from './components/EquipmentChange/EquipmentForm';
-import EquipmentList from './components/EquipmentChange/EquipmentList';
-import EquipmentChangeForm from './components/EquipmentChange/EquipmentChangeForm';
-import EquipmentChangeList from './components/EquipmentChange/EquipmentList';
-import AnimatedContainer from './components/common/AnimatedContainer';
-import LockStatus from './components/common/LockStatus';
-import StatusBar from './components/common/StatusBar';
+import Navbar from './components/common/Navbar/Navbar';
+import ObjectChangeForm from './components/ObjectChange/Form/ObjectChangeForm';
+import ObjectChangeList from './components/ObjectChange/List/ObjectChangeList';
+import EquipmentForm from './components/EquipmentChange/Form/EquipmentForm';
+import EquipmentList from './components/EquipmentChange/List/EquipmentList';
+import EquipmentChangeForm from './components/EquipmentChange/Change/EquipmentChangeForm';
+import EquipmentChangeList from './components/EquipmentChange/List/EquipmentList';
+import AnimatedContainer from './components/common/AnimatedContainer/AnimatedContainer';
+import LockStatus from './components/common/LockStatus/LockStatus';
+import StatusBar from './components/common/StatusBar/StatusBar';
 import Debug from './components/common/Debug';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
@@ -24,7 +24,7 @@ import {
   exportToExcel as exportEquipmentChanges 
 } from './data/equipmentChangesStore';
 import { initErrorHandler } from './utils/errorHandler';
-import EquipmentHistory from './components/EquipmentChange/EquipmentHistory';
+import EquipmentHistory from './components/EquipmentChange/History/EquipmentHistory';
 import TonerManagementPage from './pages/TonerManagementPage';
 
 initErrorHandler();

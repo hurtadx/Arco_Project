@@ -17,9 +17,13 @@ const checkReadOnlyStatus = async () => {
 export const loadFromExcel = async () => {
   try {
     if (window.electron) {
+      
+      const dataPath = await window.electron.invoke('get-data-path');
+      
       const result = await window.electron.invoke('load-excel-data', {
         fileName: 'cambios-toner.xlsx',
-        sheet: 'CambiosToner'
+        sheet: 'CambiosToner',
+        dataPath 
       });
       
       if (result.success && Array.isArray(result.data)) {

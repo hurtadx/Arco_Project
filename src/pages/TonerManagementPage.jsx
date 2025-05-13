@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import PrinterList from '../components/TonerManagement/PrinterList';
-import PrinterForm from '../components/TonerManagement/PrinterForm';
-import AnimatedContainer from '../components/common/AnimatedContainer';
+import PrinterList from '../components/TonerManagement/Printer/List/PrinterList';
+import PrinterForm from '../components/TonerManagement/Printer/Form/PrinterForm';
+import AnimatedContainer from '../components/common/AnimatedContainer/AnimatedContainer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './TonerManagementPage.css';
 

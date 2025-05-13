@@ -19,10 +19,10 @@ export const loadFromExcel = async () => {
     if (window.electron) {
       const dataPath = await window.electron.invoke('get-data-path');
       
-      
       const result = await window.electron.invoke('load-excel-data', {
         fileName: 'equipos.xlsx',
-        sheet: 'Equipos'
+        sheet: 'Equipos',
+        dataPath
       });
       
       if (result.success) {
