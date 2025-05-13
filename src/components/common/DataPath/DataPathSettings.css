@@ -1,0 +1,112 @@
+.data-path-settings {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 1.5rem;
+  position: relative;
+}
+
+.dark-theme .data-path-settings {
+  background-color: var(--background-light);
+  color: var(--text-primary);
+}
+
+.settings-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.settings-header h3 {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--primary);
+}
+
+.settings-icon {
+  color: var(--accent);
+}
+
+.settings-description {
+  margin-bottom: 1.5rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.current-path {
+  background-color: var(--background-gray);
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.dark-theme .current-path {
+  background-color: var(--background-gray-darker);
+}
+
+.path-label {
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.path-value {
+  word-break: break-all;
+  font-family: monospace;
+  font-size: 0.95rem;
+  padding: 0.5rem;
+  background-color: rgba(0,0,0,0.03);
+  border-radius: 4px;
+}
+
+.dark-theme .path-value {
+  background-color: rgba(255,255,255,0.03);
+}
+
+.settings-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.select-folder-btn {
+  background-color: var(--accent);
+  color: white;
+  flex: 2;
+}
+
+.select-folder-btn:hover {
+  background-color: var(--accent-dark);
+}
+
+.reset-btn {
+  background-color: var(--background-gray);
+  color: var(--text-secondary);
+  flex: 1;
+}
+
+.reset-btn:hover {
+  background-color: var(--background-light);
+}
+
+.error-message {
+  background-color: rgba(244, 67, 54, 0.1);
+  color: #f44336;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
