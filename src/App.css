@@ -81,6 +81,7 @@
   padding: 2rem;
   margin-bottom: 2rem;
   transition: all 0.3s ease;
+  overflow: visible !important;
 }
 
 .section-header {

@@ -92,6 +92,7 @@ const DatePickerField = ({
           showMonthDropdown
           dropdownMode="select"
           popperProps={{ strategy: 'fixed' }}
+          popperPlacement="top-end"
         />
         <button
           type="button"
