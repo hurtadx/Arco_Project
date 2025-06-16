@@ -16,11 +16,12 @@ function ObjectChangeForm() {
   
   const [successMessage, setSuccessMessage] = useState('');
   const [showOtherField, setShowOtherField] = useState(false);
+  const [isPrestado, setIsPrestado] = useState(false);
   
   
   const locationsArc = ['Administración', 'Ventas', 'Fijacion', 'Calidad', 'Herramientas','Empaque','Almacen','Pernos','Trefilacion','Mantenimiento'];
-  const locationsExt = ['Empaque', 'Prensa', 'Espectometro', 'Extrusion', 'Despachos', 'Rimax', 'Estañado','Matriceria'];
-  const objectTypes = ['Teléfono', 'Mousepad', 'Pantalla', 'Garra de Pantalla', 'Teclado', 'Mouse', 'Otro'];
+  const locationsExt = ['Administración', 'Empaque', 'Prensa', 'Espectometro', 'Extrusion', 'Despachos', 'Rimax', 'Estañado','Matriceria'];
+  const objectTypes = ['Teléfono', 'Mousepad', 'Pantalla', 'Garra de Pantalla', 'Teclado', 'Mouse', 'Audífonos', 'Otro'];
   
   
   const getLocationsForCompany = () => {
@@ -55,6 +56,10 @@ function ObjectChangeForm() {
     });
   };
   
+  const handlePrestadoChange = (e) => {
+    setIsPrestado(e.target.checked);
+  };
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     
@@ -63,6 +68,12 @@ function ObjectChangeForm() {
       objectType: formData.objectType === 'Otro' ? formData.otherObject : formData.objectType,
       timestamp: new Date().toISOString()
     };
+    if (isPrestado) {
+      changeData.estado = 'Prestado';
+      changeData.fechaPrestamo = new Date().toISOString();
+      changeData.fechaDevolucion = null;
+      changeData.diasPrestado = null;
+    }
     
     addObjectChange(changeData);
     
@@ -81,6 +92,7 @@ function ObjectChangeForm() {
       date: new Date().toISOString().split('T')[0]
     });
     setShowOtherField(false);
+    setIsPrestado(false);
   };
   
   
@@ -198,6 +210,20 @@ function ObjectChangeForm() {
             />
           </div>
         )}
+        
+        <div className="form-group">
+          <label className="switch-label">
+            <span style={{ marginRight: 12 }}>¿Este objeto es un préstamo?</span>
+            <span className="switch">
+              <input
+                type="checkbox"
+                checked={isPrestado}
+                onChange={handlePrestadoChange}
+              />
+              <span className="slider round"></span>
+            </span>
+          </label>
+        </div>
         
         <DatePickerField
           label="Fecha"

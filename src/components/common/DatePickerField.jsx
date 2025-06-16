@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import es from 'date-fns/locale/es';
@@ -21,7 +21,7 @@ const DatePickerField = ({
   yearDropdownItemNumber = 30,
   helpText 
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const datePickerRef = useRef(null);
 
   
   let dateValue = null;
@@ -61,7 +61,9 @@ const DatePickerField = ({
   };
 
   const handleClick = () => {
-    setIsOpen(!isOpen);
+    if (datePickerRef.current && datePickerRef.current.setOpen) {
+      datePickerRef.current.setOpen(true);
+    }
   };
 
   return (
@@ -74,10 +76,9 @@ const DatePickerField = ({
       
       <div className="date-picker-container">
         <DatePicker
+          ref={datePickerRef}
           selected={dateValue}
           onChange={handleChange}
-          onClickOutside={() => setIsOpen(false)}
-          open={isOpen}
           locale="es"
           dateFormat="dd/MM/yyyy"
           className="enhanced-input date-input"
@@ -90,6 +91,7 @@ const DatePickerField = ({
           yearDropdownItemNumber={yearDropdownItemNumber}
           showMonthDropdown
           dropdownMode="select"
+          popperProps={{ strategy: 'fixed' }}
         />
         <button
           type="button"
