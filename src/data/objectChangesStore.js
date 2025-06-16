@@ -66,23 +66,52 @@ export const addObjectChange = async (changeData) => {
   if (isReadOnly) {
     throw new Error('La aplicación está en modo solo lectura. No se pueden realizar cambios.');
   }
-  
+
   if (objectChanges.length === 0) {
     await loadFromExcel();
   }
-  
+
+  const now = new Date();
   const newChange = {
     id: Date.now().toString(),
     ...changeData,
-    timestamp: new Date().toISOString()
+    timestamp: now.toISOString()
   };
-  
+  // Si viene estado, mantenerlo, si no, no poner nada
   objectChanges.push(newChange);
-  
   await saveToExcel();
-  
   console.log('Nuevo cambio de objeto registrado:', newChange);
   return newChange;
+};
+
+// Alternar estado entre Prestado y Devuelto
+export const toggleEstadoObjectChange = async (id) => {
+  await checkReadOnlyStatus();
+  if (isReadOnly) {
+    throw new Error('La aplicación está en modo solo lectura. No se pueden realizar cambios.');
+  }
+  if (objectChanges.length === 0) {
+    await loadFromExcel();
+  }
+  const change = objectChanges.find(c => c.id === id);
+  if (!change) return null;
+  const now = new Date();
+  if (change.estado === 'Prestado') {
+    // Cambiar a Devuelto
+    change.estado = 'Devuelto';
+    change.fechaDevolucion = now.toISOString();
+    const fechaPrestamo = new Date(change.fechaPrestamo);
+    const diffMs = now - fechaPrestamo;
+    change.diasPrestado = Math.max(1, Math.round(diffMs / (1000 * 60 * 60 * 24)));
+  } else {
+    // Cambiar a Prestado
+    change.estado = 'Prestado';
+    change.fechaPrestamo = now.toISOString();
+    change.fechaDevolucion = null;
+    change.diasPrestado = null;
+  }
+  await saveToExcel();
+  return change;
 };
 
 export const getObjectChanges = async () => {
